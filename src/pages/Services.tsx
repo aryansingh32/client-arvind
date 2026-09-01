@@ -1,0 +1,56 @@
+import { Link } from "react-router-dom";
+import PageHero from "../components/PageHero";
+import { specializations } from "../data/company";
+
+export default function Services() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Services"
+        title="What We Specialize In"
+        intro="We undertake turnkey projects across five core specializations, built on 20 years of varied field experience."
+      />
+
+      <section className="container-edge py-16 md:py-24">
+        {specializations.map((s, i) => (
+          <div
+            key={s.number}
+            className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 py-14 items-center ${
+              i !== 0 ? "border-t border-concrete" : ""
+            }`}
+          >
+            <div
+              className={`lg:col-span-5 aspect-[4/3] overflow-hidden ${
+                i % 2 === 1 ? "lg:order-2" : ""
+              }`}
+            >
+              <img src={s.image} alt={s.title} className="w-full h-full object-cover" />
+            </div>
+            <div className={`lg:col-span-7 ${i % 2 === 1 ? "lg:order-1" : ""}`}>
+              <span className="label-eyebrow text-rust">{s.number}</span>
+              <h2 className="mt-3 text-2xl md:text-3xl font-semibold tracking-tight uppercase">
+                {s.title}
+              </h2>
+              <p className="text-steel">{s.subtitle}</p>
+              <p className="mt-5 text-charcoal/80 leading-relaxed max-w-xl">{s.body}</p>
+              <Link
+                to="/projects"
+                className="mt-6 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark"
+              >
+                Related project experience <ArrowIcon />
+              </Link>
+            </div>
+          </div>
+        ))}
+      </section>
+    </>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
