@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Industrial / infrastructure palette. Orange is used sparingly. */
+  --color-charcoal: #17181a;
+  --color-charcoal-soft: #212226;
+  --color-graphite: #2b2c30;
+  --color-steel: #6b6e74;
+  --color-steel-light: #9a9da3;
+  --color-concrete: #d7d3c8;
+  --color-ivory: #f3efe6;
+  --color-paper: #faf8f3;
+  --color-rust: #b8531f;
+  --color-rust-dark: #8f4118;
+  --color-rust-light: #d97a3f;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-charcoal);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-rust);
+  color: white;
+}
+
+.container-edge {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container-edge {
+    padding-inline: 2.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-edge {
+    padding-inline: 4rem;
+  }
+}
+
+.label-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s ease both;
+}

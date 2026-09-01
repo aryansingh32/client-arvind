@@ -1,0 +1,36 @@
+name: Deploy to Cloudflare Pages
+
+# Runs on push to main, or manually from the Actions tab.
+# Requires two repository secrets to actually deploy:
+#   CLOUDFLARE_API_TOKEN   — a Cloudflare API token with "Cloudflare Pages: Edit"
+#   CLOUDFLARE_ACCOUNT_ID  — your Cloudflare account ID
+# Until both secrets are added, the deploy step is skipped (the workflow
+# still passes) so this doesn't block anything on this repo by itself.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        if: ${{ vars.CLOUDFLARE_ACCOUNT_ID != '' || secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=anand-techno-fab
