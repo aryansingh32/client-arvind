@@ -1,0 +1,7 @@
+name = "anand-techno-fab"
+compatibility_date = "2025-01-01"
+
+# Cloudflare Pages project — build output directory.
+# Lets `npx wrangler pages deploy` run with no extra flags once
+# `npm run build` has produced dist/.
+pages_build_output_dir = "dist"
