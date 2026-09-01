@@ -44,7 +44,7 @@ export default function Lightbox({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] bg-charcoal/95 flex flex-col"
+      className="fixed inset-0 z-[100] bg-charcoal/95 flex flex-col animate-scrim-in"
       role="dialog"
       aria-modal="true"
       aria-label={item.title}

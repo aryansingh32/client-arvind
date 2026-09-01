@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import PageHero from "../components/PageHero";
 import Lightbox from "../components/Lightbox";
+import Reveal from "../components/Reveal";
 import { galleryItems, type GalleryItem } from "../data/company";
 
 const categories: ("All" | GalleryItem["category"])[] = [
@@ -40,9 +41,9 @@ export default function Gallery() {
             <button
               key={c}
               onClick={() => setFilter(c)}
-              className={`label-eyebrow px-4 py-2 border transition-colors ${
+              className={`label-eyebrow px-4 py-2 border transition-all duration-300 ${
                 filter === c
-                  ? "bg-charcoal text-paper border-charcoal"
+                  ? "bg-charcoal text-paper border-charcoal scale-[1.03]"
                   : "border-concrete text-steel hover:border-charcoal hover:text-charcoal"
               }`}
             >
@@ -54,7 +55,7 @@ export default function Gallery() {
         {/* Editorial layout: one large image + two supporting, repeated */}
         <div className="space-y-3">
           {chunk(filtered, 3).map((group, gi) => (
-            <div key={gi} className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <Reveal key={gi} delay={(gi % 3) * 100} className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {group[0] && (
                 <button
                   onClick={() => setOpenIndex(gi * 3)}
@@ -87,7 +88,7 @@ export default function Gallery() {
                     )
                 )}
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
