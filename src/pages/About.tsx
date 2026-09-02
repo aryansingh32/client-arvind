@@ -38,11 +38,57 @@ export default function About() {
         </div>
       </section>
 
+      {/* Leadership */}
+      <section className="container-edge py-20 md:py-28">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <Reveal className="lg:col-span-5">
+            <div className="relative aspect-[4/5] overflow-hidden bg-charcoal">
+              <img
+                src={company.partners[0].photo}
+                alt="Amit Singh Rajput, Partner & CEO, Anand Techno-Fab LLP"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/5 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-6 md:p-7">
+                <p className="label-eyebrow text-rust-light">{company.partners[0].role}</p>
+                <p className="mt-1.5 text-2xl md:text-3xl font-semibold text-white uppercase tracking-tight leading-tight">
+                  Amit Singh Rajput
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={150} className="lg:col-span-7">
+            <SectionLabel index="02" label="Leadership" />
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-lg">
+              Hands-on leadership, on every site
+            </h2>
+            <p className="mt-6 text-charcoal/80 leading-relaxed max-w-lg">
+              Anand Techno-Fab LLP is led by two partners — Mr. Amit Singh
+              Rajput as Partner &amp; CEO, and Mr. Suneel Kumar Singh as
+              Partner &amp; CFO. Together they carry the twenty years of
+              field experience behind the company&rsquo;s journey from Anand
+              Construction in 2004 to Anand Techno-Fab LLP today, overseeing
+              execution, quality and client relationships across every
+              concurrent project site.
+            </p>
+            <div className="mt-8 grid grid-cols-2 gap-6 border-t border-concrete pt-6 max-w-md">
+              {company.partners.map((p) => (
+                <div key={p.name}>
+                  <p className="label-eyebrow text-steel">{p.role}</p>
+                  <p className="mt-1 font-medium">{p.name.replace(/^Mr\.\s*/, "")}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* What we do */}
       <section className="bg-ivory border-y border-concrete">
         <div className="container-edge py-20 md:py-28">
           <Reveal>
-            <SectionLabel index="02" label="What We Do" />
+            <SectionLabel index="03" label="What We Do" />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
               An upcoming construction company undertaking turnkey projects
             </h2>
@@ -66,7 +112,7 @@ export default function About() {
       {/* Approach / methodology */}
       <section className="container-edge py-20 md:py-28">
         <Reveal>
-          <SectionLabel index="03" label="Our Approach" />
+          <SectionLabel index="04" label="Our Approach" />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
             How we work
           </h2>
@@ -94,7 +140,7 @@ export default function About() {
       <section className="bg-charcoal text-ivory">
         <div className="container-edge py-20 md:py-28 grid grid-cols-1 md:grid-cols-12 gap-10">
           <Reveal className="md:col-span-4">
-            <SectionLabel index="04" label="Commitment" />
+            <SectionLabel index="05" label="Commitment" />
             <h2 className="text-3xl font-semibold tracking-tight uppercase text-white">
               Fully committed to excellence
             </h2>
@@ -108,7 +154,7 @@ export default function About() {
       {/* Corporate details */}
       <section className="container-edge py-20 md:py-28">
         <Reveal>
-          <SectionLabel index="05" label="Company Information" />
+          <SectionLabel index="06" label="Company Information" />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
             Corporate details
           </h2>
