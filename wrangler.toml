@@ -14,10 +14,10 @@ pages_build_output_dir = "dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "anand-techno-fab-content"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "8fe0b5ce-44b9-43cd-a55b-caf676c05ee2"
 
 # --- Admin panel media (images/videos/logo uploads) ---
 # Replace bucket_name below with the name you gave `wrangler r2 bucket create`.
-[[r2_buckets]]
-binding = "MEDIA"
-bucket_name = "anand-techno-fab-media"
+#[[r2_buckets]]
+#binding = "MEDIA"
+#bucket_name = "anand-techno-fab-media"
