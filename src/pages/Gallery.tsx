@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import PageHero from "../components/PageHero";
 import Lightbox from "../components/Lightbox";
+import Reveal from "../components/Reveal";
 import { galleryItems, type GalleryItem } from "../data/company";
 
 const categories: ("All" | GalleryItem["category"])[] = [
@@ -11,6 +12,8 @@ const categories: ("All" | GalleryItem["category"])[] = [
   "Safety & People",
 ];
 
+const OPENER_ID = "kalisindh-aerial";
+
 export default function Gallery() {
   const [filter, setFilter] = useState<(typeof categories)[number]>("All");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -20,11 +23,16 @@ export default function Gallery() {
     return galleryItems.filter((g) => g.category === filter);
   }, [filter]);
 
+  const showOpener = filter === "All";
+  const opener = showOpener ? filtered.find((g) => g.id === OPENER_ID) : undefined;
+  const rest = opener ? filtered.filter((g) => g.id !== opener.id) : filtered;
+
   const lightboxItems = filtered.map((g) => ({
     image: g.image,
     title: g.caption,
     subtitle: g.location,
   }));
+  const indexOf = (item: GalleryItem) => filtered.findIndex((g) => g.id === item.id);
 
   return (
     <>
@@ -40,9 +48,9 @@ export default function Gallery() {
             <button
               key={c}
               onClick={() => setFilter(c)}
-              className={`label-eyebrow px-4 py-2 border transition-colors ${
+              className={`label-eyebrow px-4 py-2 border transition-all duration-300 ${
                 filter === c
-                  ? "bg-charcoal text-paper border-charcoal"
+                  ? "bg-charcoal text-paper border-charcoal scale-[1.03]"
                   : "border-concrete text-steel hover:border-charcoal hover:text-charcoal"
               }`}
             >
@@ -51,44 +59,44 @@ export default function Gallery() {
           ))}
         </div>
 
-        {/* Editorial layout: one large image + two supporting, repeated */}
         <div className="space-y-3">
-          {chunk(filtered, 3).map((group, gi) => (
-            <div key={gi} className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {group[0] && (
-                <button
-                  onClick={() => setOpenIndex(gi * 3)}
-                  className="md:row-span-2 relative overflow-hidden group aspect-[4/3] md:aspect-auto"
-                >
-                  <img
-                    src={group[0].image}
-                    alt={group[0].caption}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          {opener && (
+            <Reveal>
+              <GalleryFrame
+                item={opener}
+                onClick={() => setOpenIndex(indexOf(opener))}
+                className="aspect-[16/7] w-full"
+              />
+            </Reveal>
+          )}
+
+          {chunk(rest, 3).map((group, gi) => {
+            const reversed = gi % 2 === 1;
+            return (
+              <Reveal key={gi} delay={(gi % 3) * 90} className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {group[0] && (
+                  <GalleryFrame
+                    item={group[0]}
+                    onClick={() => setOpenIndex(indexOf(group[0]))}
+                    className={`md:row-span-2 aspect-[4/3] md:aspect-auto ${reversed ? "md:order-2" : ""}`}
                   />
-                  <Caption item={group[0]} />
-                </button>
-              )}
-              <div className="grid grid-rows-2 gap-3">
-                {[group[1], group[2]].map(
-                  (item, i) =>
-                    item && (
-                      <button
-                        key={item.id}
-                        onClick={() => setOpenIndex(gi * 3 + i + 1)}
-                        className="relative overflow-hidden group aspect-[4/3]"
-                      >
-                        <img
-                          src={item.image}
-                          alt={item.caption}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <Caption item={item} />
-                      </button>
-                    )
                 )}
-              </div>
-            </div>
-          ))}
+                <div className={`grid grid-rows-2 gap-3 ${reversed ? "md:order-1" : ""}`}>
+                  {[group[1], group[2]].map(
+                    (item) =>
+                      item && (
+                        <GalleryFrame
+                          key={item.id}
+                          item={item}
+                          onClick={() => setOpenIndex(indexOf(item))}
+                          className="aspect-[4/3]"
+                        />
+                      )
+                  )}
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
@@ -97,12 +105,37 @@ export default function Gallery() {
   );
 }
 
-function Caption({ item }: { item: GalleryItem }) {
+function GalleryFrame({
+  item,
+  onClick,
+  className = "",
+}: {
+  item: GalleryItem;
+  onClick: () => void;
+  className?: string;
+}) {
   return (
-    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-charcoal/85 to-transparent p-4 text-left">
-      <p className="text-white text-sm font-medium">{item.caption}</p>
-      <p className="text-ivory/60 text-xs mt-0.5">{item.location}</p>
-    </div>
+    <button onClick={onClick} className={`relative overflow-hidden group block w-full ${className}`}>
+      <img
+        src={item.image}
+        alt={item.caption}
+        className="w-full h-full object-cover grayscale-[35%] contrast-[1.02] transition-all duration-700 ease-out group-hover:scale-[1.04] group-hover:grayscale-0"
+        loading="lazy"
+        decoding="async"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/0 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-300" />
+
+      {/* Corner accents — reveal on hover, engineering-drawing callback */}
+      <span className="absolute top-3 left-3 w-4 h-4 border-t border-l border-rust-light opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <span className="absolute top-3 right-3 w-4 h-4 border-t border-r border-rust-light opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+      <div className="absolute inset-x-0 bottom-0 p-4 text-left">
+        <p className="text-white text-sm font-medium transition-transform duration-300 group-hover:-translate-y-0.5">
+          {item.caption}
+        </p>
+        <p className="text-ivory/60 text-xs mt-0.5">{item.location}</p>
+      </div>
+    </button>
   );
 }
 

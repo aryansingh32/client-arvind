@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { nav, company } from "../data/company";
-import { telLink } from "../lib/whatsapp";
+import { mailLink, telLink } from "../lib/whatsapp";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -13,106 +13,145 @@ export default function Navbar() {
   }, [location.pathname]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 48);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 border-b transition-colors ${
-        scrolled
-          ? "bg-paper/95 border-concrete backdrop-blur"
-          : "bg-paper border-transparent"
-      }`}
-    >
-      <div className="container-edge flex h-16 md:h-20 items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2 shrink-0" aria-label="Anand Techno-Fab LLP home">
-          <img src="/images/logo.png" alt="Anand Techno-Fab LLP" className="h-9 md:h-11 w-auto" />
-        </Link>
-
-        <nav className="hidden lg:flex items-center gap-7 label-eyebrow text-charcoal/70">
-          {nav.filter((n) => n.label !== "Home").map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) =>
-                `relative py-2 transition-colors hover:text-charcoal ${
-                  isActive ? "text-charcoal" : ""
-                }`
-              }
-            >
-              {({ isActive }) => (
-                <span className="relative">
-                  {item.label}
-                  {isActive && (
-                    <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-rust" />
-                  )}
-                </span>
-              )}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="hidden lg:flex items-center gap-4">
-          <a href={telLink(company.phones[0])} className="label-eyebrow text-charcoal/70 hover:text-charcoal">
-            {company.phones[0]}
-          </a>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 bg-charcoal text-paper px-5 py-2.5 label-eyebrow hover:bg-rust transition-colors"
-          >
-            Contact Us
-          </Link>
-        </div>
-
-        <div className="flex lg:hidden items-center gap-3">
-          <a
-            href={telLink(company.phones[0])}
-            aria-label="Call Anand Techno-Fab"
-            className="p-2 border border-charcoal/20 text-charcoal"
-          >
-            <PhoneIcon />
-          </a>
-          <button
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            className="p-2 border border-charcoal/20 text-charcoal"
-          >
-            {open ? <CloseIcon /> : <MenuIcon />}
-          </button>
+    <>
+      {/* Utility bar — desktop only. Sits in normal document flow (not sticky) so it
+          scrolls away natively with zero JS and zero layout shift for the sticky nav below. */}
+      <div className="hidden xl:block bg-charcoal text-ivory/55">
+        <div className="container-edge flex items-center justify-between h-9 text-[0.7rem] tracking-[0.1em] font-mono uppercase">
+          <p className="flex items-center gap-2.5">
+            <span>ISO 9001:2015</span>
+            <Dot />
+            <span>ISO 14001:2015</span>
+            <Dot />
+            <span>ISO 18001:2007 Certified</span>
+          </p>
+          <div className="flex items-center gap-6">
+            <a href={mailLink(company.emails[0])} className="hover:text-rust-light transition-colors">
+              {company.emails[0]}
+            </a>
+            <a href={telLink(company.phones[0])} className="hover:text-rust-light transition-colors">
+              +91 {company.phones[0]}
+            </a>
+          </div>
         </div>
       </div>
 
-      {open && (
-        <div className="lg:hidden border-t border-concrete bg-paper">
-          <nav className="container-edge py-4 flex flex-col">
-            {nav.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) =>
-                  `py-3 border-b border-concrete/70 label-eyebrow ${
-                    isActive ? "text-rust" : "text-charcoal/80"
-                  }`
-                }
-              >
-                {item.label}
-              </NavLink>
-            ))}
-            <Link
-              to="/contact"
-              className="mt-4 text-center bg-charcoal text-paper px-5 py-3 label-eyebrow"
-            >
-              Contact Us
+      <header className="sticky top-0 z-50 animate-fade-down">
+        {/* Main nav */}
+        <div
+          className={`border-b transition-colors duration-300 ${
+            scrolled
+              ? "bg-paper/95 border-concrete backdrop-blur"
+              : "bg-paper border-concrete/70"
+          }`}
+          style={scrolled ? { boxShadow: "0 1px 0 rgba(0,0,0,0.02)" } : undefined}
+        >
+          <div
+            className={`container-edge flex items-center justify-between gap-4 transition-[height] duration-300 ${
+              scrolled ? "h-16 xl:h-[4.5rem]" : "h-16 xl:h-24"
+            }`}
+          >
+            <Link to="/" className="flex items-center gap-2 shrink-0" aria-label="Anand Techno-Fab LLP home">
+              <img
+                src="/images/logo.png"
+                alt="Anand Techno-Fab LLP"
+                className="h-9 xl:h-11 w-auto transition-all duration-300"
+              />
             </Link>
-          </nav>
+
+            <nav className="hidden xl:flex items-center gap-4 2xl:gap-8 shrink-0">
+              {nav.filter((n) => n.label !== "Home").map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className="group relative py-2 label-eyebrow text-[0.72rem] 2xl:text-[0.78rem] text-charcoal/65 hover:text-charcoal transition-colors whitespace-nowrap"
+                >
+                  {({ isActive }) => (
+                    <>
+                      {item.label}
+                      <span
+                        className={`absolute left-0 right-0 -bottom-0.5 h-[2px] bg-rust origin-center transition-transform duration-300 ${
+                          isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                        }`}
+                      />
+                    </>
+                  )}
+                </NavLink>
+              ))}
+            </nav>
+
+            <div className="hidden xl:flex items-center shrink-0">
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2 whitespace-nowrap bg-charcoal text-paper px-4 2xl:px-6 py-3 label-eyebrow text-[0.72rem] 2xl:text-[0.78rem] overflow-hidden relative hover:shadow-[0_4px_18px_rgba(184,83,31,0.35)] transition-shadow duration-300"
+              >
+                <span className="absolute inset-0 bg-rust origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+                <span className="relative">Contact Us</span>
+                <span className="relative inline-block transition-transform duration-300 group-hover:translate-x-1">
+                  <ArrowIcon />
+                </span>
+              </Link>
+            </div>
+
+            <div className="flex xl:hidden items-center gap-3">
+              <a
+                href={telLink(company.phones[0])}
+                aria-label="Call Anand Techno-Fab"
+                className="p-2 border border-charcoal/20 text-charcoal"
+              >
+                <PhoneIcon />
+              </a>
+              <button
+                aria-label={open ? "Close menu" : "Open menu"}
+                aria-expanded={open}
+                onClick={() => setOpen((v) => !v)}
+                className="p-2 border border-charcoal/20 text-charcoal"
+              >
+                {open ? <CloseIcon /> : <MenuIcon />}
+              </button>
+            </div>
+          </div>
         </div>
-      )}
-    </header>
+
+        {open && (
+          <div className="xl:hidden border-t border-concrete bg-paper animate-fade-up">
+            <nav className="container-edge py-4 flex flex-col">
+              {nav.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={({ isActive }) =>
+                    `py-3 border-b border-concrete/70 label-eyebrow ${
+                      isActive ? "text-rust" : "text-charcoal/80"
+                    }`
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              ))}
+              <Link
+                to="/contact"
+                className="mt-4 text-center bg-charcoal text-paper px-5 py-3 label-eyebrow"
+              >
+                Contact Us
+              </Link>
+            </nav>
+          </div>
+        )}
+      </header>
+    </>
   );
+}
+
+function Dot() {
+  return <span className="w-1 h-1 rounded-full bg-ivory/25" />;
 }
 
 function MenuIcon() {
@@ -138,6 +177,13 @@ function PhoneIcon() {
         strokeWidth="1.3"
         strokeLinejoin="round"
       />
+    </svg>
+  );
+}
+function ArrowIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

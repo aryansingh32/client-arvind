@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
+import Reveal from "../components/Reveal";
 import {
   concurrentCommitments,
   projectFilters,
@@ -40,14 +41,16 @@ export default function Projects() {
 
       {/* Concurrent commitments */}
       <section className="container-edge py-16 md:py-24">
-        <SectionLabel index="01" label="Concurrent Commitments" />
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-          Currently in execution
-        </h2>
+        <Reveal>
+          <SectionLabel index="01" label="Concurrent Commitments" />
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
+            Currently in execution
+          </h2>
+        </Reveal>
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-px bg-concrete border border-concrete">
-          {concurrentCommitments.map((c) => (
-            <div key={c.title} className="bg-paper p-8">
+          {concurrentCommitments.map((c, i) => (
+            <Reveal key={c.title} delay={i * 130} className="bg-paper p-8">
               <p className="text-5xl md:text-6xl font-semibold tracking-tight text-rust">
                 {c.diameter}
               </p>
@@ -64,7 +67,7 @@ export default function Projects() {
                   <p className="mt-1 font-mono">{c.workDone}</p>
                 </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -72,27 +75,29 @@ export default function Projects() {
       {/* Project archive */}
       <section className="bg-ivory border-y border-concrete">
         <div className="container-edge py-16 md:py-24">
-          <SectionLabel index="02" label="Project Archive" />
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-xl">
-              Work experience
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {projectFilters.map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f)}
-                  className={`label-eyebrow px-4 py-2 border transition-colors ${
-                    filter === f
-                      ? "bg-charcoal text-paper border-charcoal"
-                      : "border-concrete text-steel hover:border-charcoal hover:text-charcoal"
-                  }`}
-                >
-                  {f}
-                </button>
-              ))}
+          <Reveal>
+            <SectionLabel index="02" label="Project Archive" />
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-xl">
+                Work experience
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {projectFilters.map((f) => (
+                  <button
+                    key={f}
+                    onClick={() => setFilter(f)}
+                    className={`label-eyebrow px-4 py-2 border transition-all duration-300 ${
+                      filter === f
+                        ? "bg-charcoal text-paper border-charcoal scale-[1.03]"
+                        : "border-concrete text-steel hover:border-charcoal hover:text-charcoal"
+                    }`}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          </Reveal>
 
           <div className="mt-10 border-t border-charcoal/15">
             <div className="hidden md:grid grid-cols-12 gap-4 py-3 label-eyebrow text-steel border-b border-charcoal/15">
@@ -102,18 +107,22 @@ export default function Projects() {
               <span className="col-span-1">Client</span>
               <span className="col-span-2 text-right">Value</span>
             </div>
-            {filtered.map((p) => (
-              <button
+            {filtered.map((p, i) => (
+              <Reveal
                 key={p.id}
+                as="button"
+                delay={(i % 8) * 40}
                 onClick={() => setSelected(p)}
-                className="w-full text-left grid grid-cols-2 md:grid-cols-12 gap-2 md:gap-4 py-5 border-b border-charcoal/15 items-center hover:bg-paper transition-colors"
+                className="block w-full text-left"
               >
-                <span className="label-eyebrow text-rust md:col-span-1">{p.year}</span>
-                <span className="col-span-2 md:col-span-5 font-medium">{p.title}</span>
-                <span className="text-sm text-steel md:col-span-3">{p.location}</span>
-                <span className="text-sm text-steel md:col-span-1">{p.client}</span>
-                <span className="text-sm font-mono md:col-span-2 md:text-right">₹{p.workDoneCr} Cr</span>
-              </button>
+                <div className="w-full text-left grid grid-cols-2 md:grid-cols-12 gap-2 md:gap-4 py-5 border-b border-charcoal/15 items-center hover:bg-paper hover:pl-2 transition-all duration-300">
+                  <span className="label-eyebrow text-rust md:col-span-1">{p.year}</span>
+                  <span className="col-span-2 md:col-span-5 font-medium">{p.title}</span>
+                  <span className="text-sm text-steel md:col-span-3">{p.location}</span>
+                  <span className="text-sm text-steel md:col-span-1">{p.client}</span>
+                  <span className="text-sm font-mono md:col-span-2 md:text-right">₹{p.workDoneCr} Cr</span>
+                </div>
+              </Reveal>
             ))}
             {filtered.length === 0 && (
               <p className="py-10 text-steel text-sm">No projects in this category.</p>
@@ -136,9 +145,9 @@ function ProjectDetail({ project, onClose }: { project: Project; onClose: () => 
       <button
         aria-label="Close project details"
         onClick={onClose}
-        className="absolute inset-0 bg-charcoal/70"
+        className="absolute inset-0 bg-charcoal/70 animate-scrim-in"
       />
-      <div className="relative w-full max-w-xl h-full bg-paper overflow-y-auto shadow-2xl animate-fade-up">
+      <div className="relative w-full max-w-xl h-full bg-paper overflow-y-auto shadow-2xl animate-slide-in-right">
         <div className="sticky top-0 bg-paper border-b border-concrete flex items-center justify-between px-6 py-5">
           <span className="label-eyebrow text-rust">{project.year}</span>
           <button onClick={onClose} aria-label="Close" className="p-2 border border-concrete hover:border-charcoal">
@@ -189,6 +198,8 @@ function ProjectDetail({ project, onClose }: { project: Project; onClose: () => 
                   src={img}
                   alt={project.title}
                   className={`w-full object-cover ${img === images[0] ? "col-span-2 aspect-[16/9]" : "aspect-square"}`}
+                  loading="lazy"
+                  decoding="async"
                 />
               ))}
             </div>

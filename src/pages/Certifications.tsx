@@ -2,6 +2,7 @@ import { useState } from "react";
 import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
 import Lightbox from "../components/Lightbox";
+import Reveal from "../components/Reveal";
 import {
   certifications,
   statutoryRegistrations,
@@ -40,19 +41,26 @@ export default function Certifications() {
 
       {/* ISO certifications */}
       <section className="container-edge py-16 md:py-24">
-        <SectionLabel index="01" label="Quality, Safety & Environment" />
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-          ISO certifications
-        </h2>
+        <Reveal>
+          <SectionLabel index="01" label="Quality, Safety & Environment" />
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
+            ISO certifications
+          </h2>
+        </Reveal>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
           {certifications.map((c, i) => (
-            <button
+            <Reveal
               key={c.id}
+              as="button"
+              delay={i * 100}
               onClick={() => setCertIndex(i)}
-              className="text-left group border border-concrete hover:border-rust transition-colors"
+              className="block text-left group border border-concrete hover:border-rust hover:shadow-lg transition-all duration-300"
             >
               <div className="aspect-[4/3] overflow-hidden border-b border-concrete bg-ivory">
-                <img src={c.image} alt={c.standard} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
+                <img src={c.image} alt={c.standard} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
               <div className="p-6">
                 <span className="label-eyebrow text-rust">{c.pillar}</span>
@@ -61,7 +69,7 @@ export default function Certifications() {
                 <p className="mt-3 text-xs text-steel leading-relaxed">{c.scope}</p>
                 <p className="mt-4 label-eyebrow text-rust">View Certificate →</p>
               </div>
-            </button>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -69,21 +77,25 @@ export default function Certifications() {
       {/* Statutory registrations */}
       <section className="bg-ivory border-y border-concrete">
         <div className="container-edge py-16 md:py-24">
-          <SectionLabel index="02" label="Registered & Compliant" />
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            Statutory registrations
-          </h2>
+          <Reveal>
+            <SectionLabel index="02" label="Registered & Compliant" />
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
+              Statutory registrations
+            </h2>
+          </Reveal>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
             {statutoryRegistrations.map((r, i) => (
-              <button
+              <Reveal
                 key={r.id}
+                as="button"
+                delay={i * 100}
                 onClick={() => setRegIndex(i)}
-                className="text-left border border-concrete hover:border-rust transition-colors p-6 bg-paper"
+                className="block text-left border border-concrete hover:border-rust hover:shadow-lg transition-all duration-300 p-6 bg-paper"
               >
                 <p className="font-semibold">{r.title}</p>
                 <p className="mt-2 text-sm text-steel leading-relaxed">{r.detail}</p>
                 <p className="mt-4 label-eyebrow text-rust">View Document →</p>
-              </button>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -91,13 +103,16 @@ export default function Certifications() {
 
       {/* Completion certificate */}
       <section className="container-edge py-16 md:py-24">
-        <SectionLabel index="03" label="Project Credentials" />
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-          Completion certificate
-        </h2>
-        <button
+        <Reveal>
+          <SectionLabel index="03" label="Project Credentials" />
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
+            Completion certificate
+          </h2>
+        </Reveal>
+        <Reveal
+          as="button"
           onClick={() => setShowCompletion(true)}
-          className="mt-10 w-full text-left grid grid-cols-1 md:grid-cols-12 gap-6 border border-concrete hover:border-rust transition-colors p-6 md:p-8"
+          className="mt-10 block w-full text-left grid grid-cols-1 md:grid-cols-12 gap-6 border border-concrete hover:border-rust hover:shadow-lg transition-all duration-300 p-6 md:p-8"
         >
           <div className="md:col-span-8">
             <p className="font-semibold">{completionCertificate.title}</p>
@@ -121,29 +136,33 @@ export default function Certifications() {
           <div className="md:col-span-4 flex items-center">
             <span className="label-eyebrow text-rust">View Certificate →</span>
           </div>
-        </button>
+        </Reveal>
       </section>
 
       {/* Awards */}
       <section className="bg-charcoal text-ivory">
         <div className="container-edge py-16 md:py-24">
-          <SectionLabel index="04" label="Awards & Achievements" />
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl text-white">
-            Recognized by our clients
-          </h2>
+          <Reveal>
+            <SectionLabel index="04" label="Awards & Achievements" />
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl text-white">
+              Recognized by our clients
+            </h2>
+          </Reveal>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
             {awards.map((a, i) => (
-              <button
+              <Reveal
                 key={a.id}
+                as="button"
+                delay={i * 100}
                 onClick={() => setAwardIndex(i)}
-                className="text-left border border-ivory/15 hover:border-rust-light transition-colors p-6"
+                className="block text-left border border-ivory/15 hover:border-rust-light hover:bg-white/[0.03] transition-all duration-300 p-6"
               >
                 <p className="label-eyebrow text-rust-light">{a.period}</p>
                 <p className="mt-3 font-semibold">{a.title}</p>
                 <p className="mt-1 text-sm text-ivory/60">{a.issuer}</p>
                 <p className="mt-4 text-sm text-ivory/75 leading-relaxed">{a.detail}</p>
                 <p className="mt-4 label-eyebrow text-rust-light">View Certificate →</p>
-              </button>
+              </Reveal>
             ))}
           </div>
         </div>

@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from "react";
 import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
+import Reveal from "../components/Reveal";
+import MagneticButton from "../components/MagneticButton";
 import { company, specializations } from "../data/company";
 import { buildEnquiryMessage, mailLink, telLink, whatsappLink } from "../lib/whatsapp";
 
@@ -52,32 +54,43 @@ export default function Contact() {
       {/* Quick contact */}
       <section className="container-edge py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-concrete border border-concrete">
-          <a href={telLink(company.phones[0])} className="bg-paper p-8 hover:bg-ivory transition-colors group">
+          <Reveal
+            as="a"
+            href={telLink(company.phones[0])}
+            className="block bg-paper p-8 hover:bg-ivory hover:-translate-y-0.5 transition-all duration-300 group"
+          >
             <p className="label-eyebrow text-rust">Call</p>
             <p className="mt-3 text-lg font-medium group-hover:text-rust transition-colors">+91 {company.phones[0]}</p>
             <p className="mt-1 text-sm text-steel">+91 {company.phones[1]}</p>
-          </a>
-          <a href={mailLink(company.emails[0])} className="bg-paper p-8 hover:bg-ivory transition-colors group">
+          </Reveal>
+          <Reveal
+            as="a"
+            delay={100}
+            href={mailLink(company.emails[0])}
+            className="block bg-paper p-8 hover:bg-ivory hover:-translate-y-0.5 transition-all duration-300 group"
+          >
             <p className="label-eyebrow text-rust">Email</p>
             <p className="mt-3 text-lg font-medium group-hover:text-rust transition-colors break-all">{company.emails[0]}</p>
-          </a>
-          <a
+          </Reveal>
+          <Reveal
+            as="a"
+            delay={200}
             href={whatsappLink("Hello Anand Techno-Fab LLP, I would like to discuss a project requirement. Please let me know how we can proceed.")}
             target="_blank"
             rel="noreferrer"
-            className="bg-paper p-8 hover:bg-ivory transition-colors group"
+            className="block bg-paper p-8 hover:bg-ivory hover:-translate-y-0.5 transition-all duration-300 group"
           >
             <p className="label-eyebrow text-rust">WhatsApp</p>
             <p className="mt-3 text-lg font-medium group-hover:text-rust transition-colors">Start a chat</p>
             <p className="mt-1 text-sm text-steel">Instant, no waiting on hold</p>
-          </a>
+          </Reveal>
         </div>
       </section>
 
       {/* Form + address */}
       <section className="bg-ivory border-y border-concrete">
         <div className="container-edge py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-7">
+          <Reveal className="lg:col-span-7">
             <SectionLabel index="01" label="Project Enquiry" />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-lg">
               Send a project enquiry
@@ -138,15 +151,18 @@ export default function Contact() {
                   </label>
                 </Field>
 
-                <button
-                  type="submit"
-                  className="w-full md:w-auto bg-charcoal text-paper px-8 py-4 label-eyebrow hover:bg-rust transition-colors"
-                >
-                  Send Project Enquiry
-                </button>
+                <MagneticButton className="w-full md:w-auto">
+                  <button
+                    type="submit"
+                    className="group w-full md:w-auto inline-flex items-center justify-center gap-2.5 bg-charcoal text-paper px-8 py-4 label-eyebrow hover:bg-rust hover:shadow-[0_6px_24px_rgba(184,83,31,0.35)] transition-all duration-300"
+                  >
+                    Send Project Enquiry
+                    <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </button>
+                </MagneticButton>
               </form>
             ) : (
-              <div className="mt-10 border border-rust/40 bg-paper p-8">
+              <div className="mt-10 border border-rust/40 bg-paper p-8 animate-fade-up">
                 <p className="label-eyebrow text-rust">Enquiry Ready</p>
                 <p className="mt-3 text-lg font-medium">
                   Thank you. Your enquiry details are ready to be shared with Anand Techno-Fab.
@@ -180,9 +196,9 @@ export default function Contact() {
                 </pre>
               </div>
             )}
-          </div>
+          </Reveal>
 
-          <div className="lg:col-span-5">
+          <Reveal delay={150} className="lg:col-span-5">
             <SectionLabel index="02" label="Registered Office" />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-lg">
               Visit us
@@ -219,7 +235,7 @@ export default function Contact() {
                 <p>{company.llpIdentityNo}</p>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -231,6 +247,7 @@ export default function Contact() {
           padding: 0.75rem 1rem;
           font-size: 0.95rem;
           color: var(--color-charcoal);
+          transition: border-color 0.25s ease;
         }
         .input:focus {
           outline: none;
@@ -238,6 +255,14 @@ export default function Contact() {
         }
       `}</style>
     </>
+  );
+}
+
+function ArrowIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" className={className}>
+      <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 

@@ -9,7 +9,11 @@ export const company = {
   founded: 2004,
   llpSince: 2018,
   partners: [
-    { name: "Mr. Amit Singh Rajput", role: "Partner & CEO" },
+    {
+      name: "Mr. Amit Singh Rajput",
+      role: "Partner & CEO",
+      photo: "/images/team/amit-singh-rajput.jpg",
+    },
     { name: "Mr. Suneel Kumar Singh", role: "Partner & CFO" },
   ],
   registeredAddress:
@@ -60,9 +64,9 @@ export const timeline = [
 export const specializations = [
   {
     number: "01",
-    title: "Water Pipeline Projects",
-    subtitle: "& Distribution Networks",
-    body: "Excavation, laying and jointing of large-diameter MS water pipelines and twin-line distribution networks for irrigation and water supply schemes.",
+    title: "Oil, Gas & Water Pipeline",
+    subtitle: "Laying & Distribution Networks",
+    body: "Excavation, laying and jointing of large-diameter MS oil, gas and water pipelines, and twin-line distribution networks, for irrigation and water supply schemes.",
     image: "/images/gallery/kalisindh-trench.jpg",
   },
   {

@@ -9,6 +9,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" href="/images/logo.png" />
+    <!-- Critical inline style: paints the intro's charcoal backdrop before the JS
+         bundle executes, so a first-time visitor never sees a flash of the paper
+         background before the arrival animation takes over. Layout's own
+         bg-paper class repaints this once React mounts (skip or after intro). -->
+    <style>
+      html,
+      body {
+        background: #17181a;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
