@@ -46,7 +46,7 @@ export default function Contact() {
 
   return (
     <>
-      <PageHero eyebrow={pageHeroes.contact.eyebrow} title={pageHeroes.contact.title} intro={pageHeroes.contact.intro} />
+      <PageHero index="08" eyebrow={pageHeroes.contact.eyebrow} title={pageHeroes.contact.title} intro={pageHeroes.contact.intro} />
 
       {/* Quick contact */}
       <section className="container-edge py-16 md:py-20">

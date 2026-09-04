@@ -7,7 +7,7 @@ export default function Services() {
   const { specializations, pageHeroes } = useContent();
   return (
     <>
-      <PageHero eyebrow={pageHeroes.services.eyebrow} title={pageHeroes.services.title} intro={pageHeroes.services.intro} />
+      <PageHero index="02" eyebrow={pageHeroes.services.eyebrow} title={pageHeroes.services.title} intro={pageHeroes.services.intro} />
 
       <section className="container-edge py-16 md:py-24">
         {specializations.map((s, i) => (

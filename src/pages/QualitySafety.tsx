@@ -9,6 +9,7 @@ export default function QualitySafety() {
   return (
     <>
       <PageHero
+        index="05"
         eyebrow={pageHeroes.qualitySafety.eyebrow}
         title={pageHeroes.qualitySafety.title}
         intro={pageHeroes.qualitySafety.intro}

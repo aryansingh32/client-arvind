@@ -31,6 +31,7 @@ export default function Certifications() {
   return (
     <>
       <PageHero
+        index="06"
         eyebrow={pageHeroes.certifications.eyebrow}
         title={pageHeroes.certifications.title}
         intro={pageHeroes.certifications.intro}

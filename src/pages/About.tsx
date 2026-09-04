@@ -9,7 +9,7 @@ export default function About() {
 
   return (
     <>
-      <PageHero eyebrow={pageHeroes.about.eyebrow} title={pageHeroes.about.title} intro={pageHeroes.about.intro} />
+      <PageHero index="01" eyebrow={pageHeroes.about.eyebrow} title={pageHeroes.about.title} intro={pageHeroes.about.intro} />
 
       {/* Journey */}
       <section className="container-edge py-20 md:py-28">

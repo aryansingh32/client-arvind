@@ -1,26 +1,72 @@
 import { Link } from "react-router-dom";
-import SectionLabel from "../components/SectionLabel";
-import StatBlock from "../components/StatBlock";
 import Reveal from "../components/Reveal";
 import AnimatedText from "../components/AnimatedText";
+import AnimatedNumber from "../components/AnimatedNumber";
 import MagneticButton from "../components/MagneticButton";
 import VideoHero from "../components/VideoHero";
+import BlueprintFrame from "../components/BlueprintFrame";
+import TechTag from "../components/TechTag";
+import ProjectExplorer from "../components/ProjectExplorer";
 import { useContent } from "../lib/content";
 import { whatsappLink } from "../lib/whatsapp";
 import { useParallax } from "../lib/useParallax";
 
+function StackedHeading({
+  text,
+  className = "",
+  dark = false,
+}: {
+  text: string;
+  className?: string;
+  dark?: boolean;
+}) {
+  return (
+    <AnimatedText
+      as="h2"
+      lines={text.split("\n")}
+      className={`font-semibold uppercase tracking-tight leading-[0.98] ${dark ? "text-white" : "text-charcoal"} ${className}`}
+    />
+  );
+}
+
+function BgNumeral({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`pointer-events-none select-none absolute -top-4 md:-top-10 right-0 text-bg-numeral font-semibold ${
+        dark ? "text-ivory/[0.04]" : "text-charcoal/[0.045]"
+      }`}
+    >
+      {children}
+    </span>
+  );
+}
+
 export default function Home() {
-  const { company, siteSettings, home, timeline, specializations, projects, equipmentHighlights, certifications, awards, contactContent } =
-    useContent();
+  const {
+    company,
+    siteSettings,
+    home,
+    timeline,
+    specializations,
+    projects,
+    equipmentHighlights,
+    certifications,
+    awards,
+    contactContent,
+  } = useContent();
   const heroBgRef = useParallax<HTMLDivElement>(0.06, 36);
   const featuredProjects = projects.slice(0, 5);
   const { sections } = home;
+  const [heroStat, ...supportingStats] = home.stats;
 
   return (
     <>
-      {/* 1. HERO */}
-      <section className="relative h-[92vh] min-h-[600px] max-h-[880px] flex items-end overflow-hidden bg-charcoal">
-        <div ref={heroBgRef} className="absolute left-0 right-0" style={{ top: "-6%", bottom: "-6%" }}>
+      {/* 1. HERO — cinematic, dark. min-height (not a capped max-height) so the
+          giant display type can never be clipped by overflow-hidden at any
+          viewport width — the section grows to fit its content instead. */}
+      <section className="relative min-h-[94vh] md:min-h-screen flex items-end overflow-hidden bg-charcoal">
+        <div ref={heroBgRef} className="absolute left-0 right-0 layer-isolate" style={{ top: "-6%", bottom: "-6%" }}>
           <VideoHero
             src={siteSettings.heroVideo}
             poster={siteSettings.heroPoster}
@@ -28,28 +74,31 @@ export default function Home() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/55 to-charcoal/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/70 via-charcoal/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/55 to-charcoal/15" />
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/75 via-charcoal/25 to-transparent" />
 
-        <div className="container-edge relative z-10 pb-14 md:pb-20 pt-32">
-          <p className="animate-hero-in label-eyebrow text-rust-light mb-5" style={{ animationDelay: "100ms" }}>
+        <div className="container-edge relative z-10 pb-10 md:pb-16 pt-24 layer-isolate">
+          <div className="animate-hero-in mb-4" style={{ animationDelay: "60ms" }}>
+            <TechTag dark>{home.heroTechTag}</TechTag>
+          </div>
+          <p className="animate-hero-in label-eyebrow text-rust-light mb-4" style={{ animationDelay: "160ms" }}>
             {home.heroEyebrow}
           </p>
           <AnimatedText
             as="h1"
             trigger="mount"
-            baseDelay={220}
+            baseDelay={260}
             wordDelay={55}
             lines={[home.heroHeadlineLine1, home.heroHeadlineLine2]}
-            className="text-white font-semibold uppercase leading-[1.06] tracking-tight text-hero-display max-w-4xl break-words"
+            className="text-white font-semibold uppercase leading-[0.98] tracking-tight text-cinema-display max-w-6xl break-words"
           />
           <p
-            className="animate-hero-in mt-6 max-w-xl text-ivory/80 text-base md:text-lg leading-relaxed"
-            style={{ animationDelay: "380ms" }}
+            className="animate-hero-in mt-5 max-w-xl text-ivory/80 text-base md:text-lg leading-relaxed"
+            style={{ animationDelay: "480ms" }}
           >
             {home.heroIntro}
           </p>
-          <div className="animate-hero-in mt-9 flex flex-wrap gap-4" style={{ animationDelay: "520ms" }}>
+          <div className="animate-hero-in mt-7 flex flex-wrap gap-4" style={{ animationDelay: "600ms" }}>
             <MagneticButton>
               <Link
                 to={home.heroCtaPrimaryTo}
@@ -72,50 +121,58 @@ export default function Home() {
         </div>
 
         <div
-          className="hidden md:flex animate-hero-in absolute bottom-8 right-6 xl:right-10 items-center gap-2 text-ivory/50 label-eyebrow"
-          style={{ animationDelay: "700ms" }}
+          className="hidden md:flex animate-hero-in absolute bottom-8 right-6 xl:right-10 items-center gap-2 text-ivory/50 label-eyebrow layer-isolate"
+          style={{ animationDelay: "760ms" }}
         >
-          <span className="w-6 h-px bg-ivory/30" />
+          <span className="w-6 h-px bg-ivory/30 layer-isolate" />
           {home.scrollLabel}
         </div>
       </section>
 
-      {/* 2. CREDIBILITY NUMBERS */}
+      {/* 2. STATS — one giant number, dark, continues the hero */}
       <section className="bg-charcoal text-ivory border-t border-ivory/10">
-        <div className="container-edge py-10 md:py-12 grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-8">
-          {home.stats.map((s, i) => (
-            <StatBlock key={s.label} dark delay={i * 80} value={s.value} label={s.label} />
-          ))}
+        <div className="container-edge py-16 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end">
+          <Reveal className="lg:col-span-7">
+            <BlueprintFrame dark className="inline-block">
+              <AnimatedNumber value={heroStat.value} className="block text-stat-giant font-semibold tracking-tight text-white leading-[0.85] px-2 py-1" />
+            </BlueprintFrame>
+            <p className="mt-4 label-eyebrow text-rust-light">{heroStat.label}</p>
+          </Reveal>
+          <div className="lg:col-span-5 grid grid-cols-3 gap-6 lg:gap-8 lg:border-l lg:border-ivory/15 lg:pl-8">
+            {supportingStats.map((s, i) => (
+              <Reveal key={s.label} delay={i * 90} className="min-w-0 border-t border-ivory/15 pt-4">
+                <AnimatedNumber value={s.value} className="block text-3xl md:text-4xl font-semibold tracking-tight text-white" />
+                <p className="mt-2 label-eyebrow text-ivory/50">{s.label}</p>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* 3. ABOUT / JOURNEY */}
-      <section className="container-edge py-20 md:py-28">
-        <SectionLabel index={sections.about.eyebrowIndex} label={sections.about.eyebrowLabel} />
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
-          <Reveal className="lg:col-span-5">
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase whitespace-pre-line">
-              {sections.about.heading}
-            </h2>
-            <p className="mt-6 text-steel leading-relaxed">{sections.about.body}</p>
-            <Link to="/about" className="group mt-7 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
-              {sections.about.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-          </Reveal>
+      {/* 3. ABOUT / JOURNEY — light, giant full-width stacked headline, asymmetric body below */}
+      <section className="relative container-edge py-24 md:py-32 overflow-hidden">
+        <BgNumeral>{sections.about.eyebrowIndex}</BgNumeral>
+        <div className="relative">
+          <TechTag className="mb-6">{sections.about.eyebrowLabel}</TechTag>
+          <StackedHeading text={sections.about.heading} className="text-editorial-display whitespace-pre-line" />
 
-          <div className="lg:col-span-7">
-            <div className="flex flex-col md:flex-row">
+          <div className="mt-14 md:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+            <div className="lg:col-span-5">
+              <Reveal delay={150}>
+                <p className="text-steel leading-relaxed max-w-md">{sections.about.body}</p>
+                <Link to="/about" className="group mt-7 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
+                  {sections.about.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </Reveal>
+            </div>
+            <div className="lg:col-span-7 space-y-0 border-t border-concrete">
               {timeline.map((t, i) => (
-                <Reveal key={t.year} delay={i * 120} className="flex-1 relative pt-6 pb-2 md:px-6 first:pl-0">
-                  <div className="flex items-center gap-3 md:block">
-                    <span className="label-eyebrow text-rust">{t.year}</span>
-                    <span className="hidden md:block h-px w-full bg-concrete mt-3" />
+                <Reveal key={t.year} delay={200 + i * 100} className="flex gap-6 py-5 border-b border-concrete">
+                  <span className="tech-tag text-rust shrink-0 w-14">{t.year}</span>
+                  <div>
+                    <p className="font-semibold text-charcoal">{t.title}</p>
+                    <p className="mt-1 text-sm text-steel leading-relaxed">{t.body}</p>
                   </div>
-                  <p className="mt-3 font-semibold text-charcoal">{t.title}</p>
-                  <p className="mt-2 text-sm text-steel leading-relaxed">{t.body}</p>
-                  {i < timeline.length - 1 && (
-                    <span className="md:hidden block h-px w-full bg-concrete mt-5" />
-                  )}
                 </Reveal>
               ))}
             </div>
@@ -123,225 +180,227 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. SERVICES */}
+      {/* 4. SERVICES — light/image-forward, featured item + technical list */}
       <section className="relative bg-ivory border-y border-concrete overflow-hidden">
-        <span
-          aria-hidden="true"
-          className="pointer-events-none select-none absolute -top-6 right-4 md:right-10 text-[8rem] md:text-[13rem] font-semibold text-charcoal/[0.035] leading-none"
-        >
-          {sections.services.eyebrowIndex}
-        </span>
-        <div className="container-edge py-20 md:py-28 relative">
-          <Reveal>
-            <SectionLabel index={sections.services.eyebrowIndex} label={sections.services.eyebrowLabel} />
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-              {sections.services.heading}
-            </h2>
-          </Reveal>
+        <BgNumeral>{sections.services.eyebrowIndex}</BgNumeral>
+        <div className="relative container-edge py-24 md:py-32">
+          <TechTag className="mb-6">{sections.services.eyebrowLabel}</TechTag>
+          <StackedHeading text={sections.services.heading} className="text-editorial-display whitespace-pre-line mb-14 md:mb-20" />
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-px bg-concrete">
-            {specializations.map((s, i) => (
-              <Reveal key={s.number} delay={i * 90} className="bg-ivory group relative overflow-hidden">
-                <div className="h-48 overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+            {specializations[0] && (
+              <Reveal className="lg:col-span-7">
+                <BlueprintFrame className="block aspect-[16/10] overflow-hidden">
                   <img
-                    src={s.image}
-                    alt={s.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    src={specializations[0].image}
+                    alt={specializations[0].title}
+                    className="w-full h-full object-cover"
                     loading="lazy"
                     decoding="async"
                   />
-                </div>
-                <div className="p-5">
-                  <span className="label-eyebrow text-rust">{s.number}</span>
-                  <p className="mt-2 font-semibold leading-snug">{s.title}</p>
-                  <p className="text-xs text-steel">{s.subtitle}</p>
+                </BlueprintFrame>
+                <div className="mt-6 flex items-start gap-4">
+                  <span className="tech-tag text-rust">{specializations[0].number}</span>
+                  <div>
+                    <p className="text-xl md:text-2xl font-semibold uppercase tracking-tight">{specializations[0].title}</p>
+                    <p className="text-steel text-sm">{specializations[0].subtitle}</p>
+                    <p className="mt-2 text-sm text-charcoal/80 leading-relaxed max-w-lg">{specializations[0].body}</p>
+                  </div>
                 </div>
               </Reveal>
-            ))}
+            )}
+
+            <div className="lg:col-span-5 border-t border-charcoal/15 lg:border-t-0">
+              {specializations.slice(1).map((s, i) => (
+                <Reveal
+                  key={s.number}
+                  delay={i * 90}
+                  className="flex items-baseline gap-4 py-5 border-b border-charcoal/15 group"
+                >
+                  <span className="tech-tag text-rust shrink-0">{s.number}</span>
+                  <div>
+                    <p className="font-semibold leading-snug group-hover:text-rust transition-colors">
+                      {s.title} <span className="text-steel font-normal">{s.subtitle}</span>
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+              <Reveal delay={300}>
+                <Link to="/services" className="group mt-7 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
+                  {sections.services.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </Reveal>
+            </div>
           </div>
-          <Link to="/services" className="group mt-8 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
-            {sections.services.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
         </div>
       </section>
 
-      {/* 5. FEATURED PROJECTS */}
-      <section className="container-edge py-20 md:py-28">
-        <Reveal>
-          <SectionLabel index={sections.projects.eyebrowIndex} label={sections.projects.eyebrowLabel} />
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-xl">
-              {sections.projects.heading}
-            </h2>
-            <Link to="/projects" className="group label-eyebrow text-rust hover:text-rust-dark inline-flex items-center gap-2">
-              {sections.projects.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </Reveal>
-
-        <div className="mt-10 border-t border-charcoal/15">
-          {featuredProjects.map((p, i) => (
-            <Reveal
-              key={p.id}
-              delay={i * 60}
-              className="grid grid-cols-2 md:grid-cols-12 gap-2 md:gap-4 py-5 border-b border-charcoal/15 items-center hover:bg-ivory/60 transition-colors"
-            >
-              <span className="label-eyebrow text-rust md:col-span-2">{p.year}</span>
-              <span className="col-span-2 md:col-span-5 font-medium">{p.title}</span>
-              <span className="text-sm text-steel md:col-span-3">{p.location}</span>
-              <span className="text-sm text-steel md:col-span-1">{p.client}</span>
-              <span className="text-sm font-mono md:col-span-1 md:text-right">₹{p.workDoneCr} Cr</span>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* 6. EXECUTION CAPABILITY */}
-      <section className="relative bg-charcoal text-ivory overflow-hidden">
-        <span
-          aria-hidden="true"
-          className="pointer-events-none select-none absolute -top-6 right-4 md:right-10 text-[8rem] md:text-[13rem] font-semibold text-ivory/[0.04] leading-none"
-        >
-          {sections.capability.eyebrowIndex}
-        </span>
-        <div className="container-edge py-20 md:py-28 relative">
+      {/* 5. PROJECT EXPLORER — dark, signature interaction */}
+      <section className="bg-charcoal text-ivory">
+        <div className="container-edge py-24 md:py-32">
           <Reveal>
-            <SectionLabel index={sections.capability.eyebrowIndex} label={sections.capability.eyebrowLabel} />
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-xl text-white">
+            <TechTag dark className="mb-6">{sections.projects.eyebrowLabel}</TechTag>
+            <div className="flex flex-wrap items-end justify-between gap-6 mb-12 md:mb-16">
+              <h2 className="text-editorial-display font-semibold uppercase tracking-tight leading-[0.98] text-white whitespace-pre-line max-w-xl">
+                {sections.projects.heading}
+              </h2>
+              <Link to="/projects" className="group label-eyebrow text-rust-light hover:text-white inline-flex items-center gap-2">
+                {sections.projects.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </Reveal>
+          <Reveal delay={150}>
+            <ProjectExplorer projects={featuredProjects} detailHref={() => "/projects"} />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 6. EXECUTION CAPABILITY — light */}
+      <section className="relative container-edge py-24 md:py-32 overflow-hidden">
+        <BgNumeral>{sections.capability.eyebrowIndex}</BgNumeral>
+        <div className="relative">
+          <Reveal>
+            <TechTag className="mb-6">{sections.capability.eyebrowLabel}</TechTag>
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <h2 className="text-editorial-display font-semibold uppercase tracking-tight leading-[0.98] whitespace-pre-line max-w-xl">
                 {sections.capability.heading}
               </h2>
-              <Link to="/capabilities" className="group label-eyebrow text-rust-light hover:text-white inline-flex items-center gap-2">
+              <Link to="/capabilities" className="group label-eyebrow text-rust hover:text-rust-dark inline-flex items-center gap-2">
                 {sections.capability.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
           </Reveal>
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-8">
+          <div className="mt-14 md:mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-10 border-t border-concrete pt-10">
             {equipmentHighlights.map((e, i) => (
-              <StatBlock key={e.label} dark delay={i * 70} value={String(e.count)} label={e.label} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 7. QUALITY / SAFETY / ENVIRONMENT */}
-      <section className="container-edge py-20 md:py-28">
-        <Reveal>
-          <SectionLabel index={sections.quality.eyebrowIndex} label={sections.quality.eyebrowLabel} />
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            {sections.quality.heading}
-          </h2>
-        </Reveal>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {certifications.map((c, i) => (
-            <Reveal key={c.id} delay={i * 100}>
-              <Link
-                to="/certifications"
-                className="group block border border-concrete hover:border-rust hover:shadow-lg transition-all duration-300"
-              >
-                <div className="aspect-[4/3] overflow-hidden border-b border-concrete bg-ivory">
-                  <img
-                    src={c.image}
-                    alt={c.standard}
-                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <div className="p-6">
-                  <span className="label-eyebrow text-rust">{c.pillar}</span>
-                  <p className="mt-2 font-semibold">{c.standard}</p>
-                  <p className="mt-1 text-sm text-steel">{c.name}</p>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* 8. PROJECT PHOTOGRAPHY */}
-      <section className="bg-ivory border-y border-concrete">
-        <div className="container-edge py-20 md:py-28">
-          <Reveal>
-            <SectionLabel index={sections.photography.eyebrowIndex} label={sections.photography.eyebrowLabel} />
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-              {sections.photography.heading}
-            </h2>
-          </Reveal>
-
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
-            {sections.photography.items.map((item, i) => (
-              <Reveal
-                key={item.image}
-                as="figure"
-                delay={i === 0 ? 0 : i * 120}
-                className={`overflow-hidden group ${i === 0 ? "md:row-span-2" : ""}`}
-              >
-                <img
-                  src={item.image}
-                  alt={item.caption}
-                  className={`w-full h-full object-cover ${i === 0 ? "aspect-[4/3] md:aspect-auto" : "aspect-[4/3]"} transition-transform duration-700 group-hover:scale-105`}
-                  loading="lazy"
-                  decoding="async"
-                />
-                <figcaption className="mt-3 text-sm text-steel">{item.caption}</figcaption>
+              <Reveal key={e.label} delay={i * 70}>
+                <AnimatedNumber value={String(e.count)} className="block text-4xl md:text-5xl font-semibold tracking-tight text-charcoal" />
+                <p className="mt-2 label-eyebrow text-steel">{e.label}</p>
               </Reveal>
             ))}
           </div>
-          <Link to="/gallery" className="group mt-8 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
-            {sections.photography.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
         </div>
       </section>
 
-      {/* 9. CERTIFICATIONS / RECOGNITION */}
-      <section className="container-edge py-20 md:py-28">
-        <Reveal>
-          <SectionLabel index={sections.recognition.eyebrowIndex} label={sections.recognition.eyebrowLabel} />
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            {sections.recognition.heading}
-          </h2>
-        </Reveal>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {awards.map((a, i) => (
-            <Reveal
-              key={a.id}
-              delay={i * 100}
-              className="border border-concrete p-6 hover:border-rust/50 hover:shadow-md transition-all duration-300"
-            >
-              <p className="label-eyebrow text-rust">{a.period}</p>
-              <p className="mt-3 font-semibold">{a.title}</p>
-              <p className="mt-1 text-sm text-steel">{a.issuer}</p>
-              <p className="mt-4 text-sm text-charcoal/80 leading-relaxed">{a.detail}</p>
-            </Reveal>
-          ))}
-        </div>
-        <Link to="/certifications" className="group mt-8 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
-          {sections.recognition.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
-        </Link>
-      </section>
-
-      {/* 10. FINAL CONTACT CTA */}
+      {/* 7. FIELDWORK — full-bleed cinematic image with floating supporting frames */}
       <section className="relative bg-charcoal">
+        <div className="relative h-[80vh] min-h-[520px] max-h-[820px] overflow-hidden">
+          {sections.photography.items[0] && (
+            <img
+              src={sections.photography.items[0].image}
+              alt={sections.photography.items[0].caption}
+              className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/30 to-charcoal/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/60 via-transparent to-transparent" />
+
+          <div className="relative h-full container-edge flex items-end pb-16 md:pb-20">
+            <Reveal>
+              <TechTag dark className="mb-6">{sections.photography.eyebrowLabel}</TechTag>
+              <h2 className="text-editorial-display font-semibold uppercase tracking-tight leading-[0.98] text-white whitespace-pre-line">
+                {sections.photography.heading}
+              </h2>
+              <Link
+                to="/gallery"
+                className="group mt-7 inline-flex items-center gap-2 label-eyebrow text-rust-light hover:text-white"
+              >
+                {sections.photography.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </Reveal>
+          </div>
+
+          {/* Floating offset supporting frames */}
+          <div className="hidden lg:flex absolute right-10 xl:right-16 top-1/2 -translate-y-1/2 flex-col gap-6">
+            {sections.photography.items.slice(1).map((item, i) => (
+              <Reveal key={item.image} delay={i * 150} className={i === 1 ? "translate-x-10" : ""}>
+                <BlueprintFrame dark className="block w-56 aspect-[4/3] overflow-hidden shadow-2xl">
+                  <img src={item.image} alt={item.caption} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                </BlueprintFrame>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 8. QUALITY / TRUST MOMENT — light */}
+      <section className="relative container-edge py-24 md:py-32 overflow-hidden">
+        <BgNumeral>{sections.quality.eyebrowIndex}</BgNumeral>
+        <div className="relative">
+          <Reveal>
+            <TechTag className="mb-6">{sections.quality.eyebrowLabel}</TechTag>
+            <h2 className="text-editorial-display font-semibold uppercase tracking-tight leading-[0.98] whitespace-pre-line">
+              {sections.quality.heading}
+            </h2>
+          </Reveal>
+
+          <div className="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-3 gap-px bg-concrete border border-concrete">
+            {certifications.map((c, i) => (
+              <Reveal key={c.id} delay={i * 100} className="group relative bg-paper overflow-hidden">
+                <Link to="/certifications" className="block">
+                  <div className="aspect-[4/3] overflow-hidden bg-ivory">
+                    <img
+                      src={c.image}
+                      alt={c.standard}
+                      className="w-full h-full object-cover object-top transition-all duration-500 grayscale-[40%] group-hover:grayscale-0 group-hover:scale-105"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-400">
+                    <span className="label-eyebrow text-rust-light">{c.pillar}</span>
+                    <p className="mt-1 text-white font-semibold text-sm">{c.name}</p>
+                  </div>
+                  <div className="p-5 group-hover:opacity-0 transition-opacity duration-300">
+                    <span className="label-eyebrow text-rust">{c.pillar}</span>
+                    <p className="mt-2 font-semibold">{c.standard}</p>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+
+          <div className="mt-16 md:mt-20">
+            <TechTag className="mb-6">{sections.recognition.eyebrowLabel}</TechTag>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {awards.map((a, i) => (
+                <Reveal key={a.id} delay={i * 100} className="border-t border-charcoal/15 pt-5">
+                  <p className="tech-tag text-rust">{a.period}</p>
+                  <p className="mt-2 font-semibold">{a.title}</p>
+                  <p className="mt-1 text-sm text-steel">{a.issuer}</p>
+                </Reveal>
+              ))}
+            </div>
+            <Link to="/certifications" className="group mt-8 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
+              {sections.recognition.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. FINAL CTA — full-bleed cinematic */}
+      <section className="relative bg-charcoal overflow-hidden">
         <div className="absolute inset-0">
           <img
             src={sections.finalCta.backgroundImage}
             alt="Structural fabrication and welding work"
-            className="w-full h-full object-cover opacity-30"
+            className="w-full h-full object-cover opacity-45"
             loading="lazy"
             decoding="async"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/70 to-charcoal/40" />
         </div>
-        <Reveal className="relative container-edge py-24 md:py-32 text-center">
-          <h2 className="text-white text-3xl md:text-5xl font-semibold uppercase tracking-tight max-w-3xl mx-auto">
+        <Reveal className="relative container-edge py-28 md:py-40 text-center">
+          <h2 className="text-white text-editorial-display font-semibold uppercase tracking-tight leading-[0.98] whitespace-pre-line max-w-4xl mx-auto">
             {sections.finalCta.heading}
           </h2>
-          <p className="mt-5 text-ivory/70 max-w-lg mx-auto">{sections.finalCta.body}</p>
-          <div className="mt-9 flex flex-wrap gap-4 justify-center">
+          <p className="mt-6 text-ivory/70 max-w-lg mx-auto text-lg">{sections.finalCta.body}</p>
+          <div className="mt-10 flex flex-wrap gap-4 justify-center">
             <MagneticButton>
               <Link
                 to="/contact"
-                className="group inline-flex items-center gap-2.5 bg-rust text-white px-7 py-3.5 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
+                className="group inline-flex items-center gap-2.5 bg-rust text-white px-8 py-4 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
               >
                 {sections.finalCta.ctaPrimaryLabel}
                 <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -352,7 +411,7 @@ export default function Home() {
                 href={whatsappLink(contactContent.whatsappDefaultMessage, company.whatsappNumber)}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-block border border-ivory/40 text-white px-7 py-3.5 label-eyebrow hover:border-ivory hover:bg-white/5 transition-all duration-300"
+                className="inline-block border border-ivory/40 text-white px-8 py-4 label-eyebrow hover:border-ivory hover:bg-white/5 transition-all duration-300"
               >
                 {sections.finalCta.ctaSecondaryLabel}
               </a>

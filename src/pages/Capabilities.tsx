@@ -12,7 +12,7 @@ export default function Capabilities() {
 
   return (
     <>
-      <PageHero eyebrow={pageHeroes.capabilities.eyebrow} title={pageHeroes.capabilities.title} intro={pageHeroes.capabilities.intro} />
+      <PageHero index="04" eyebrow={pageHeroes.capabilities.eyebrow} title={pageHeroes.capabilities.title} intro={pageHeroes.capabilities.intro} />
 
       {/* Team */}
       <section className="container-edge py-16 md:py-24">

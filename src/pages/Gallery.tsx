@@ -33,7 +33,7 @@ export default function Gallery() {
 
   return (
     <>
-      <PageHero eyebrow={pageHeroes.gallery.eyebrow} title={pageHeroes.gallery.title} intro={pageHeroes.gallery.intro} />
+      <PageHero index="07" eyebrow={pageHeroes.gallery.eyebrow} title={pageHeroes.gallery.title} intro={pageHeroes.gallery.intro} />
 
       <section className="container-edge py-16 md:py-24">
         <div className="flex flex-wrap gap-2 mb-10">

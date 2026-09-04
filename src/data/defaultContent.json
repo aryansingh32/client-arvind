@@ -368,7 +368,8 @@
       "workDoneCr": 6,
       "categories": [
         "Water Pipeline"
-      ]
+      ],
+      "image": "/images/gallery/pipeline-trench.jpg"
     },
     {
       "id": "parvati-2-3",
@@ -379,7 +380,8 @@
       "workDoneCr": 4.54,
       "categories": [
         "Water Pipeline"
-      ]
+      ],
+      "image": "/images/gallery/kalisindh-irrigation-1.jpg"
     },
     {
       "id": "isp-kalisindh",
@@ -391,7 +393,8 @@
       "categories": [
         "Water Pipeline",
         "Irrigation"
-      ]
+      ],
+      "image": "/images/gallery/kalisindh-aerial.jpg"
     },
     {
       "id": "jhabua-kalpataru",
@@ -402,7 +405,8 @@
       "workDoneCr": 5,
       "categories": [
         "Irrigation"
-      ]
+      ],
+      "image": "/images/gallery/kalisindh-irrigation-2.jpg"
     },
     {
       "id": "jhabua-jmc",
@@ -413,7 +417,8 @@
       "workDoneCr": 12,
       "categories": [
         "Irrigation"
-      ]
+      ],
+      "image": "/images/gallery/kalisindh-irrigation-3.jpg"
     },
     {
       "id": "kshipra",
@@ -424,7 +429,8 @@
       "workDoneCr": 3.5,
       "categories": [
         "Water Pipeline"
-      ]
+      ],
+      "image": "/images/gallery/sauni-pipe-1.jpg"
     },
     {
       "id": "mlis-rajgarh",
@@ -435,7 +441,8 @@
       "workDoneCr": 9.8,
       "categories": [
         "Water Pipeline"
-      ]
+      ],
+      "image": "/images/gallery/pipeline-twin-line.jpg"
     },
     {
       "id": "sauni-l3p3",
@@ -447,7 +454,8 @@
       "categories": [
         "Water Pipeline",
         "Earthwork"
-      ]
+      ],
+      "image": "/images/gallery/sauni-earthwork.jpg"
     },
     {
       "id": "dahej-nand-intake",
@@ -458,7 +466,8 @@
       "workDoneCr": 5.4,
       "categories": [
         "Water Pipeline"
-      ]
+      ],
+      "image": "/images/gallery/sauni-pipe-2.jpg"
     },
     {
       "id": "cetp-narol",
@@ -469,7 +478,8 @@
       "workDoneCr": 1.5,
       "categories": [
         "Structural"
-      ]
+      ],
+      "image": "/images/gallery/sauni-pipe-3.jpg"
     },
     {
       "id": "db-power",
@@ -480,7 +490,8 @@
       "workDoneCr": 2.59,
       "categories": [
         "Structural"
-      ]
+      ],
+      "image": "/images/gallery/mining-jafrabad-1.jpg"
     },
     {
       "id": "nc-27-dhandhuka",
@@ -491,7 +502,8 @@
       "workDoneCr": 2.8,
       "categories": [
         "Structural"
-      ]
+      ],
+      "image": "/images/gallery/mining-jafrabad-2.jpg"
     },
     {
       "id": "nc-24-rajula",
@@ -502,7 +514,8 @@
       "workDoneCr": 2.52,
       "categories": [
         "Structural"
-      ]
+      ],
+      "image": "/images/gallery/mining-jafrabad-3.jpg"
     },
     {
       "id": "jaiselmer-phed",
@@ -513,7 +526,8 @@
       "workDoneCr": 2,
       "categories": [
         "Water Pipeline"
-      ]
+      ],
+      "image": "/images/gallery/isp-kalisindh-reinforcement.jpg"
     },
     {
       "id": "bisalpur-ruidp",
@@ -524,7 +538,8 @@
       "workDoneCr": 2.8,
       "categories": [
         "Water Pipeline"
-      ]
+      ],
+      "image": "/images/gallery/isp-kalisindh-earthwork.jpg"
     }
   ],
   "projectFilters": [
@@ -801,6 +816,7 @@
     ]
   },
   "home": {
+    "heroTechTag": "ATF / 001 — ENGINEERING",
     "heroEyebrow": "Anand Techno-Fab LLP · Ahmedabad, Gujarat",
     "heroHeadlineLine1": "Engineering Infrastructure.",
     "heroHeadlineLine2": "Delivering With Precision.",
@@ -832,37 +848,37 @@
       "about": {
         "eyebrowIndex": "01",
         "eyebrowLabel": "About",
-        "heading": "Two decades of building\nIndia's infrastructure",
+        "heading": "Two decades\nof building\nIndia's\ninfrastructure.",
         "body": "We started our journey in 2004 with the name Anand Construction, providing services in water pipeline projects and structural fabrication. With years of experience and sustainable growth, the venture was incorporated as Anand Techno-Fab LLP in 2018 to continue the journey in infrastructure development & solutions across irrigation, structural fabrication & erection, earthwork and mining.",
         "linkLabel": "Read our full story"
       },
       "services": {
         "eyebrowIndex": "02",
         "eyebrowLabel": "Specializations",
-        "heading": "Built for complex project execution",
+        "heading": "Built for\ncomplex project\nexecution.",
         "linkLabel": "All services"
       },
       "projects": {
         "eyebrowIndex": "03",
         "eyebrowLabel": "Project Experience",
-        "heading": "Selected project experience",
+        "heading": "Selected\nproject experience.",
         "linkLabel": "View all 15 projects"
       },
       "capability": {
         "eyebrowIndex": "04",
         "eyebrowLabel": "Execution Capability",
-        "heading": "A fleet built for scale",
+        "heading": "A fleet built\nfor scale.",
         "linkLabel": "View complete equipment"
       },
       "quality": {
         "eyebrowIndex": "05",
         "eyebrowLabel": "Quality, Safety & Environment",
-        "heading": "Certified across quality, safety and environment"
+        "heading": "Quality is\nengineered in."
       },
       "photography": {
         "eyebrowIndex": "06",
         "eyebrowLabel": "Field Execution",
-        "heading": "Grounded in real field work",
+        "heading": "Grounded\nin real\nfieldwork.",
         "linkLabel": "View full gallery",
         "items": [
           {
@@ -886,7 +902,7 @@
         "linkLabel": "All certifications & awards"
       },
       "finalCta": {
-        "heading": "Have an infrastructure project in mind?",
+        "heading": "Have an\ninfrastructure\nproject in mind?",
         "body": "Let's discuss your requirement.",
         "ctaPrimaryLabel": "Start a Conversation",
         "ctaSecondaryLabel": "WhatsApp Us",
@@ -1071,6 +1087,7 @@
     "whatsappDefaultMessage": "Hello Anand Techno-Fab LLP, I would like to discuss a project requirement. Please let me know how we can proceed."
   },
   "footerContent": {
+    "brandStatement": "Let's build\nsomething\nthat lasts.",
     "description": "Infrastructure execution across oil, gas & water pipeline projects, structural fabrication & erection, earthwork, mining and quarry plant operations.",
     "ctaEyebrow": "Get In Touch",
     "ctaHeading": "Let's engineer your next project.",

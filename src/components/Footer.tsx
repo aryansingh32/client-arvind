@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { mailLink, telLink, whatsappLink } from "../lib/whatsapp";
 import { useContent } from "../lib/content";
 import Reveal from "./Reveal";
+import AnimatedText from "./AnimatedText";
 import MagneticButton from "./MagneticButton";
 
 export default function Footer() {
@@ -15,6 +16,15 @@ export default function Footer() {
 
   return (
     <footer className="bg-charcoal text-ivory/80">
+      {/* Final brand statement — the last thing a visitor sees, on every page. */}
+      <div className="container-edge pt-20 pb-12 md:pt-28 md:pb-16">
+        <AnimatedText
+          as="h2"
+          lines={footerContent.brandStatement.split("\n")}
+          className="text-editorial-display font-semibold uppercase tracking-tight leading-[0.98] text-white"
+        />
+      </div>
+
       {showClosingCta && (
       <div className="border-b border-ivory/10">
         <div className="container-edge py-16 md:py-20">

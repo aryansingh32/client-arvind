@@ -55,6 +55,7 @@ const siteSettings = {
 };
 
 const home = {
+  heroTechTag: "ATF / 001 — ENGINEERING",
   heroEyebrow: "Anand Techno-Fab LLP · Ahmedabad, Gujarat",
   heroHeadlineLine1: "Engineering Infrastructure.",
   heroHeadlineLine2: "Delivering With Precision.",
@@ -75,37 +76,37 @@ const home = {
     about: {
       eyebrowIndex: "01",
       eyebrowLabel: "About",
-      heading: "Two decades of building\nIndia's infrastructure",
+      heading: "Two decades\nof building\nIndia's\ninfrastructure.",
       body: "We started our journey in 2004 with the name Anand Construction, providing services in water pipeline projects and structural fabrication. With years of experience and sustainable growth, the venture was incorporated as Anand Techno-Fab LLP in 2018 to continue the journey in infrastructure development & solutions across irrigation, structural fabrication & erection, earthwork and mining.",
       linkLabel: "Read our full story",
     },
     services: {
       eyebrowIndex: "02",
       eyebrowLabel: "Specializations",
-      heading: "Built for complex project execution",
+      heading: "Built for\ncomplex project\nexecution.",
       linkLabel: "All services",
     },
     projects: {
       eyebrowIndex: "03",
       eyebrowLabel: "Project Experience",
-      heading: "Selected project experience",
+      heading: "Selected\nproject experience.",
       linkLabel: "View all 15 projects",
     },
     capability: {
       eyebrowIndex: "04",
       eyebrowLabel: "Execution Capability",
-      heading: "A fleet built for scale",
+      heading: "A fleet built\nfor scale.",
       linkLabel: "View complete equipment",
     },
     quality: {
       eyebrowIndex: "05",
       eyebrowLabel: "Quality, Safety & Environment",
-      heading: "Certified across quality, safety and environment",
+      heading: "Quality is\nengineered in.",
     },
     photography: {
       eyebrowIndex: "06",
       eyebrowLabel: "Field Execution",
-      heading: "Grounded in real field work",
+      heading: "Grounded\nin real\nfieldwork.",
       linkLabel: "View full gallery",
       items: [
         { image: "/images/gallery/kalisindh-aerial.jpg", caption: "Kalisindh Phase-I, MLIS — Dewas, Madhya Pradesh" },
@@ -120,7 +121,7 @@ const home = {
       linkLabel: "All certifications & awards",
     },
     finalCta: {
-      heading: "Have an infrastructure project in mind?",
+      heading: "Have an\ninfrastructure\nproject in mind?",
       body: "Let's discuss your requirement.",
       ctaPrimaryLabel: "Start a Conversation",
       ctaSecondaryLabel: "WhatsApp Us",
@@ -231,6 +232,7 @@ const contactContent = {
 };
 
 const footerContent = {
+  brandStatement: "Let's build\nsomething\nthat lasts.",
   description: "Infrastructure execution across oil, gas & water pipeline projects, structural fabrication & erection, earthwork, mining and quarry plant operations.",
   ctaEyebrow: "Get In Touch",
   ctaHeading: "Let's engineer your next project.",
@@ -239,6 +241,33 @@ const footerContent = {
   navigateHeading: "Navigate",
   contactHeading: "Contact",
 };
+
+// Real project photography is limited to a handful of documented sites in
+// the source profile (Kalisindh, SAUNI L3P3, Jafrabad mining, ISP-Kalisindh).
+// Each project below is matched to the closest real photo from that set by
+// category/site rather than inventing new imagery — the user will replace
+// these with dedicated per-project photography via the admin media library.
+const projectImages = {
+  "northern-link": "/images/gallery/pipeline-trench.jpg",
+  "parvati-2-3": "/images/gallery/kalisindh-irrigation-1.jpg",
+  "isp-kalisindh": "/images/gallery/kalisindh-aerial.jpg",
+  "jhabua-kalpataru": "/images/gallery/kalisindh-irrigation-2.jpg",
+  "jhabua-jmc": "/images/gallery/kalisindh-irrigation-3.jpg",
+  kshipra: "/images/gallery/sauni-pipe-1.jpg",
+  "mlis-rajgarh": "/images/gallery/pipeline-twin-line.jpg",
+  "sauni-l3p3": "/images/gallery/sauni-earthwork.jpg",
+  "dahej-nand-intake": "/images/gallery/sauni-pipe-2.jpg",
+  "cetp-narol": "/images/gallery/sauni-pipe-3.jpg",
+  "db-power": "/images/gallery/mining-jafrabad-1.jpg",
+  "nc-27-dhandhuka": "/images/gallery/mining-jafrabad-2.jpg",
+  "nc-24-rajula": "/images/gallery/mining-jafrabad-3.jpg",
+  "jaiselmer-phed": "/images/gallery/isp-kalisindh-reinforcement.jpg",
+  "bisalpur-ruidp": "/images/gallery/isp-kalisindh-earthwork.jpg",
+};
+const projectsWithImages = projects.map((p) => ({
+  ...p,
+  image: projectImages[p.id] || "/images/gallery/kalisindh-trench.jpg",
+}));
 
 const normalizedCompany = {
   ...company,
@@ -258,7 +287,7 @@ const content = {
   equipment,
   equipmentHighlights,
   concurrentCommitments,
-  projects,
+  projects: projectsWithImages,
   projectFilters,
   financials,
   certifications,

@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
+import TechTag from "../components/TechTag";
 import Reveal from "../components/Reveal";
+import ProjectExplorer from "../components/ProjectExplorer";
 import { useContent } from "../lib/content";
 
 type Project = ReturnType<typeof useContent>["projects"][number];
@@ -31,7 +33,7 @@ export default function Projects() {
 
   return (
     <>
-      <PageHero eyebrow={pageHeroes.projects.eyebrow} title={pageHeroes.projects.title} intro={pageHeroes.projects.intro} />
+      <PageHero index="03" eyebrow={pageHeroes.projects.eyebrow} title={pageHeroes.projects.title} intro={pageHeroes.projects.intro} />
 
       {/* Concurrent commitments */}
       <section className="container-edge py-16 md:py-24">
@@ -63,6 +65,23 @@ export default function Projects() {
               </div>
             </Reveal>
           ))}
+        </div>
+      </section>
+
+      {/* Project Explorer — every project referenced in the profile, one at a time */}
+      <section className="bg-charcoal text-ivory">
+        <div className="container-edge py-16 md:py-24">
+          <Reveal>
+            <TechTag dark className="mb-6">
+              Project Explorer
+            </TechTag>
+            <h2 className="text-editorial-display font-semibold uppercase tracking-tight leading-[0.98] text-white max-w-2xl whitespace-pre-line">
+              {"Every project,\nin detail."}
+            </h2>
+          </Reveal>
+          <Reveal delay={150} className="mt-12 md:mt-16">
+            <ProjectExplorer projects={projects} />
+          </Reveal>
         </div>
       </section>
 
