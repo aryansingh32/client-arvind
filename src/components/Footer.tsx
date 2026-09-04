@@ -1,10 +1,54 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { company, nav } from "../data/company";
-import { mailLink, telLink } from "../lib/whatsapp";
+import { mailLink, telLink, whatsappLink, defaultWhatsappMessage } from "../lib/whatsapp";
+import Reveal from "./Reveal";
+import MagneticButton from "./MagneticButton";
 
 export default function Footer() {
+  // Home already closes with its own full-bleed photo CTA immediately above
+  // the footer — repeating the same "Start a Conversation / WhatsApp Us"
+  // pair right below it would read as redundant, not premium.
+  const { pathname } = useLocation();
+  const showClosingCta = pathname !== "/";
+
   return (
     <footer className="bg-charcoal text-ivory/80">
+      {showClosingCta && (
+      <div className="border-b border-ivory/10">
+        <div className="container-edge py-16 md:py-20">
+          <Reveal>
+            <p className="label-eyebrow text-rust-light mb-4">— Get In Touch</p>
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+              <h2 className="text-3xl md:text-5xl font-semibold uppercase tracking-tight text-white max-w-2xl leading-[1.08]">
+                Let&rsquo;s engineer your next project.
+              </h2>
+              <div className="flex flex-wrap gap-4 shrink-0">
+                <MagneticButton>
+                  <Link
+                    to="/contact"
+                    className="group inline-flex items-center gap-2.5 bg-rust text-white px-7 py-3.5 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
+                  >
+                    Start a Conversation
+                    <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                </MagneticButton>
+                <MagneticButton>
+                  <a
+                    href={whatsappLink(defaultWhatsappMessage)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block border border-ivory/30 text-white px-7 py-3.5 label-eyebrow hover:border-ivory hover:bg-white/5 transition-all duration-300"
+                  >
+                    WhatsApp Us
+                  </a>
+                </MagneticButton>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+      )}
+
       <div className="container-edge py-14 md:py-16 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
         <div className="md:col-span-5">
           <img
@@ -17,9 +61,9 @@ export default function Footer() {
           <p className="text-ivory text-lg font-medium">{company.legalName}</p>
           <p className="mt-1 text-sm text-ivory/60">{company.tagline}</p>
           <p className="mt-6 text-sm leading-relaxed max-w-sm text-ivory/60">
-            Infrastructure execution across water pipeline projects, structural
-            fabrication &amp; erection, earthwork, mining and quarry plant
-            operations.
+            Infrastructure execution across oil, gas &amp; water pipeline
+            projects, structural fabrication &amp; erection, earthwork, mining
+            and quarry plant operations.
           </p>
         </div>
 
@@ -28,8 +72,11 @@ export default function Footer() {
           <ul className="space-y-2.5 text-sm">
             {nav.filter((n) => n.label !== "Home").map((item) => (
               <li key={item.to}>
-                <Link to={item.to} className="hover:text-rust-light transition-colors">
-                  {item.label}
+                <Link to={item.to} className="group inline-flex items-center hover:text-rust-light transition-colors">
+                  <span className="relative">
+                    {item.label}
+                    <span className="absolute left-0 -bottom-0.5 h-px w-0 bg-rust-light transition-all duration-300 group-hover:w-full" />
+                  </span>
                 </Link>
               </li>
             ))}
@@ -64,5 +111,13 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+function ArrowIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className={className}>
+      <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
