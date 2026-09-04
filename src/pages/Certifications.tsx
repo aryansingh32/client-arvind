@@ -3,14 +3,11 @@ import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
 import Lightbox from "../components/Lightbox";
 import Reveal from "../components/Reveal";
-import {
-  certifications,
-  statutoryRegistrations,
-  awards,
-  completionCertificate,
-} from "../data/company";
+import { useContent } from "../lib/content";
 
 export default function Certifications() {
+  const { certifications, statutoryRegistrations, awards, completionCertificate, pageHeroes, certificationsContent } =
+    useContent();
   const [certIndex, setCertIndex] = useState<number | null>(null);
   const [regIndex, setRegIndex] = useState<number | null>(null);
   const [awardIndex, setAwardIndex] = useState<number | null>(null);
@@ -34,17 +31,17 @@ export default function Certifications() {
   return (
     <>
       <PageHero
-        eyebrow="Certifications"
-        title="Credentials & Registrations"
-        intro="Certification, registration and recognition documents, presented as issued — evidence of an established, compliant enterprise."
+        eyebrow={pageHeroes.certifications.eyebrow}
+        title={pageHeroes.certifications.title}
+        intro={pageHeroes.certifications.intro}
       />
 
       {/* ISO certifications */}
       <section className="container-edge py-16 md:py-24">
         <Reveal>
-          <SectionLabel index="01" label="Quality, Safety & Environment" />
+          <SectionLabel index={certificationsContent.iso.eyebrowIndex} label={certificationsContent.iso.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            ISO certifications
+            {certificationsContent.iso.heading}
           </h2>
         </Reveal>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -78,9 +75,9 @@ export default function Certifications() {
       <section className="bg-ivory border-y border-concrete">
         <div className="container-edge py-16 md:py-24">
           <Reveal>
-            <SectionLabel index="02" label="Registered & Compliant" />
+            <SectionLabel index={certificationsContent.statutory.eyebrowIndex} label={certificationsContent.statutory.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-              Statutory registrations
+              {certificationsContent.statutory.heading}
             </h2>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -104,9 +101,9 @@ export default function Certifications() {
       {/* Completion certificate */}
       <section className="container-edge py-16 md:py-24">
         <Reveal>
-          <SectionLabel index="03" label="Project Credentials" />
+          <SectionLabel index={certificationsContent.completion.eyebrowIndex} label={certificationsContent.completion.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            Completion certificate
+            {certificationsContent.completion.heading}
           </h2>
         </Reveal>
         <Reveal
@@ -143,9 +140,9 @@ export default function Certifications() {
       <section className="bg-charcoal text-ivory">
         <div className="container-edge py-16 md:py-24">
           <Reveal>
-            <SectionLabel index="04" label="Awards & Achievements" />
+            <SectionLabel index={certificationsContent.awardsSection.eyebrowIndex} label={certificationsContent.awardsSection.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl text-white">
-              Recognized by our clients
+              {certificationsContent.awardsSection.heading}
             </h2>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">

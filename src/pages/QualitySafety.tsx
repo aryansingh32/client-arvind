@@ -1,23 +1,25 @@
 import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
 import Reveal from "../components/Reveal";
-import { hsePolicy, qualityPolicy } from "../data/company";
+import { useContent } from "../lib/content";
 
 export default function QualitySafety() {
+  const { hsePolicy, qualityPolicy, pageHeroes, qualitySafetyContent } = useContent();
+
   return (
     <>
       <PageHero
-        eyebrow="Quality & Safety"
-        title="Quality, Safety & Environment"
-        intro="Our operating policies for health, safety, environment and quality management — applied consistently across every project site."
+        eyebrow={pageHeroes.qualitySafety.eyebrow}
+        title={pageHeroes.qualitySafety.title}
+        intro={pageHeroes.qualitySafety.intro}
       />
 
       {/* HSE */}
       <section className="container-edge py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
         <Reveal className="lg:col-span-6 order-2 lg:order-1">
-          <SectionLabel index="01" label="Health, Safety & Environment" />
+          <SectionLabel index={qualitySafetyContent.hse.eyebrowIndex} label={qualitySafetyContent.hse.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-lg">
-            Health, Safety &amp; Environmental Policy
+            {qualitySafetyContent.hse.heading}
           </h2>
           <p className="mt-6 text-charcoal/80 leading-relaxed max-w-lg italic border-l-2 border-rust pl-4">
             &ldquo;{hsePolicy.motto}&rdquo;
@@ -33,7 +35,7 @@ export default function QualitySafety() {
         </Reveal>
         <Reveal delay={150} className="lg:col-span-6 order-1 lg:order-2 aspect-[4/3] lg:aspect-auto overflow-hidden group">
           <img
-            src="/images/gallery/safety-training.jpg"
+            src={qualitySafetyContent.hse.image}
             alt="Field safety training session"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
@@ -47,7 +49,7 @@ export default function QualitySafety() {
         <div className="container-edge py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
           <Reveal className="lg:col-span-6 aspect-[4/3] lg:aspect-auto overflow-hidden group">
             <img
-              src="/images/gallery/health-checkup-camp.jpg"
+              src={qualitySafetyContent.quality.image}
               alt="Employee health checkup camp at project site"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
@@ -55,9 +57,9 @@ export default function QualitySafety() {
             />
           </Reveal>
           <Reveal delay={150} className="lg:col-span-6">
-            <SectionLabel index="02" label="Quality Policy" />
+            <SectionLabel index={qualitySafetyContent.quality.eyebrowIndex} label={qualitySafetyContent.quality.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-lg">
-              Quality Policy
+              {qualitySafetyContent.quality.heading}
             </h2>
             <p className="mt-6 text-charcoal/80 leading-relaxed max-w-lg italic border-l-2 border-rust pl-4">
               &ldquo;{qualityPolicy.motto}&rdquo;
@@ -77,33 +79,24 @@ export default function QualitySafety() {
       {/* People & safety photography */}
       <section className="container-edge py-16 md:py-24">
         <Reveal>
-          <SectionLabel index="03" label="Safety & People" />
+          <SectionLabel index={qualitySafetyContent.people.eyebrowIndex} label={qualitySafetyContent.people.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            Site discipline in practice
+            {qualitySafetyContent.people.heading}
           </h2>
         </Reveal>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Reveal as="figure" delay={0} className="overflow-hidden group">
-            <img src="/images/gallery/isp-kalisindh-workforce.jpg" alt="Site workforce briefing at ISP-Kalisindh Ph-I, MLIS" className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption className="mt-3 text-sm text-steel">Site workforce briefing — ISP-Kalisindh Ph-I, MLIS</figcaption>
-          </Reveal>
-          <Reveal as="figure" delay={100} className="overflow-hidden group">
-            <img src="/images/gallery/safety-training.jpg" alt="Field safety training session" className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption className="mt-3 text-sm text-steel">Field safety training session</figcaption>
-          </Reveal>
-          <Reveal as="figure" delay={200} className="overflow-hidden group">
-            <img src="/images/gallery/health-checkup-camp.jpg" alt="Health checkup camp, Kalisindh Phase 1 MLIS project" className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
-              loading="lazy"
-              decoding="async"
-            />
-            <figcaption className="mt-3 text-sm text-steel">Health checkup camp — Kalisindh Phase 1, MLIS</figcaption>
-          </Reveal>
+          {qualitySafetyContent.people.items.map((item, i) => (
+            <Reveal key={item.image} as="figure" delay={i * 100} className="overflow-hidden group">
+              <img
+                src={item.image}
+                alt={item.caption}
+                className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption className="mt-3 text-sm text-steel">{item.caption}</figcaption>
+            </Reveal>
+          ))}
         </div>
       </section>
     </>

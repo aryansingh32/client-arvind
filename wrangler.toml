@@ -1,7 +1,23 @@
 name = "anand-techno-fab"
 compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
 
 # Cloudflare Pages project — build output directory.
 # Lets `npx wrangler pages deploy` run with no extra flags once
-# `npm run build` has produced dist/.
+# `npm run build` has produced dist/. Pages Functions in ./functions are
+# picked up automatically and deployed alongside the static site.
 pages_build_output_dir = "dist"
+
+# --- Admin panel data store ---
+# Replace database_id below with the id printed by `wrangler d1 create anand-techno-fab-content`.
+# See README.md "Admin Panel Setup" for the full one-time setup.
+[[d1_databases]]
+binding = "DB"
+database_name = "anand-techno-fab-content"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+# --- Admin panel media (images/videos/logo uploads) ---
+# Replace bucket_name below with the name you gave `wrangler r2 bucket create`.
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "anand-techno-fab-media"

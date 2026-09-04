@@ -1,12 +1,15 @@
-import { company } from "../data/company";
-import { defaultWhatsappMessage, telLink, whatsappLink } from "../lib/whatsapp";
+import { whatsappLink, telLink } from "../lib/whatsapp";
+import { useContent } from "../lib/content";
 
 export default function ContactDock() {
+  const { company, contactContent } = useContent();
+  const waLink = whatsappLink(contactContent.whatsappDefaultMessage, company.whatsappNumber);
+
   return (
     <>
       {/* Desktop floating WhatsApp control */}
       <a
-        href={whatsappLink(defaultWhatsappMessage)}
+        href={waLink}
         target="_blank"
         rel="noreferrer"
         aria-label="Chat on WhatsApp"
@@ -23,7 +26,7 @@ export default function ContactDock() {
           <span className="label-eyebrow text-[10px]">Call</span>
         </a>
         <a
-          href={whatsappLink(defaultWhatsappMessage)}
+          href={waLink}
           target="_blank"
           rel="noreferrer"
           className="flex flex-col items-center justify-center gap-1 py-3 border-r border-ivory/10 bg-rust active:bg-rust-dark"

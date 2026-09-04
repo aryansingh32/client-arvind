@@ -1,12 +1,7 @@
-import { company } from "../data/company";
-
-export function whatsappLink(message: string) {
+export function whatsappLink(message: string, whatsappNumber: string) {
   const encoded = encodeURIComponent(message);
-  return `https://wa.me/${company.whatsappNumber}?text=${encoded}`;
+  return `https://wa.me/${whatsappNumber}?text=${encoded}`;
 }
-
-export const defaultWhatsappMessage =
-  "Hello Anand Techno-Fab LLP, I would like to discuss a project requirement. Please let me know how we can proceed.";
 
 export function buildEnquiryMessage(fields: {
   name: string;

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
-import { nav, company } from "../data/company";
 import { mailLink, telLink } from "../lib/whatsapp";
+import { useContent } from "../lib/content";
 
 export default function Navbar() {
+  const { nav, company, siteSettings } = useContent();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -26,11 +27,12 @@ export default function Navbar() {
       <div className="hidden xl:block bg-charcoal text-ivory/55">
         <div className="container-edge flex items-center justify-between h-9 text-[0.7rem] tracking-[0.1em] font-mono uppercase">
           <p className="flex items-center gap-2.5">
-            <span>ISO 9001:2015</span>
-            <Dot />
-            <span>ISO 14001:2015</span>
-            <Dot />
-            <span>ISO 18001:2007 Certified</span>
+            {siteSettings.certBarItems.map((item: string, i: number) => (
+              <span key={item} className="flex items-center gap-2.5">
+                {i > 0 && <Dot />}
+                <span>{item}</span>
+              </span>
+            ))}
           </p>
           <div className="flex items-center gap-6">
             <a href={mailLink(company.emails[0])} className="hover:text-rust-light transition-colors">
@@ -60,7 +62,7 @@ export default function Navbar() {
           >
             <Link to="/" className="flex items-center gap-2 shrink-0" aria-label="Anand Techno-Fab LLP home">
               <img
-                src="/images/logo.png"
+                src={siteSettings.logo}
                 alt="Anand Techno-Fab LLP"
                 className="h-9 xl:h-11 w-auto transition-all duration-300"
               />
@@ -93,7 +95,7 @@ export default function Navbar() {
                 className="group inline-flex items-center gap-2 whitespace-nowrap bg-charcoal text-paper px-4 2xl:px-6 py-3 label-eyebrow text-[0.72rem] 2xl:text-[0.78rem] overflow-hidden relative hover:shadow-[0_4px_18px_rgba(184,83,31,0.35)] transition-shadow duration-300"
               >
                 <span className="absolute inset-0 bg-rust origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
-                <span className="relative">Contact Us</span>
+                <span className="relative">{siteSettings.navCtaLabel}</span>
                 <span className="relative inline-block transition-transform duration-300 group-hover:translate-x-1">
                   <ArrowIcon />
                 </span>
@@ -140,7 +142,7 @@ export default function Navbar() {
                 to="/contact"
                 className="mt-4 text-center bg-charcoal text-paper px-5 py-3 label-eyebrow"
               >
-                Contact Us
+                {siteSettings.navCtaLabel}
               </Link>
             </nav>
           </div>

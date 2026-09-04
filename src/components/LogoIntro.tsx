@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
+import { useContent, useContentReady } from "../lib/content";
 
 const SESSION_KEY = "atf-intro-seen";
 const HOLD_MS = 900;
 const FADE_MS = 500;
 
 // Decided once per page load via a module-level flag (not React state), so
-// React 18 StrictMode's dev-only double-invoke of the useState initializer
-// can't cause the second pass to see its own first pass's sessionStorage
-// write and wrongly conclude "already seen" — the decision itself is memoized
-// outside React's render cycle.
+// React 18 StrictMode's dev-only double-invoke of the mount effect can't
+// cause the second pass to see its own first pass's sessionStorage write and
+// wrongly conclude "already seen" — the decision itself is memoized outside
+// React's render cycle. The decision is deferred until content is `ready` so
+// the admin's introEnabled toggle is respected without a redeploy.
 let introDecided = false;
 let introShouldShow = false;
 
-function decideIntro(): boolean {
+function decideIntro(introEnabled: boolean): boolean {
   if (introDecided) return introShouldShow;
   introDecided = true;
 
@@ -22,7 +24,7 @@ function decideIntro(): boolean {
   }
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const alreadySeen = sessionStorage.getItem(SESSION_KEY) === "1";
-  if (reduceMotion || alreadySeen) {
+  if (!introEnabled || reduceMotion || alreadySeen) {
     introShouldShow = false;
     return false;
   }
@@ -36,17 +38,23 @@ function decideIntro(): boolean {
  * app (inside Layout, which itself never remounts across route changes), so
  * it plays exactly once per browser session — never again on internal
  * navigation, and never again if the tab is refreshed within the same
- * session. Skips entirely under prefers-reduced-motion.
+ * session. Skips entirely under prefers-reduced-motion or when disabled from
+ * the admin panel.
  */
 export default function LogoIntro() {
-  const [shouldShow] = useState(decideIntro);
-  const [phase, setPhase] = useState<"reveal" | "hold" | "fade" | "done">(
-    shouldShow ? "reveal" : "done"
-  );
+  const ready = useContentReady();
+  const content = useContent();
+  const [phase, setPhase] = useState<"pending" | "reveal" | "hold" | "fade" | "done">("pending");
 
   useEffect(() => {
-    if (!shouldShow) return;
+    if (!ready) return;
+    const shouldShow = decideIntro(content.siteSettings.introEnabled !== false);
+    if (!shouldShow) {
+      setPhase("done");
+      return;
+    }
 
+    setPhase("reveal");
     document.body.style.overflow = "hidden";
     const toHold = window.setTimeout(() => setPhase("hold"), 700);
     const toFade = window.setTimeout(() => setPhase("fade"), 700 + HOLD_MS);
@@ -61,9 +69,10 @@ export default function LogoIntro() {
       window.clearTimeout(toDone);
       document.body.style.overflow = "";
     };
-  }, [shouldShow]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready]);
 
-  if (phase === "done") return null;
+  if (phase === "pending" || phase === "done") return null;
 
   return (
     <div
@@ -76,7 +85,7 @@ export default function LogoIntro() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(184,83,31,0.14),transparent_60%)]" />
       <div className="relative">
         <img
-          src="/images/logo.png"
+          src={content.siteSettings.logo}
           alt=""
           className="relative z-10 h-16 md:h-20 w-auto animate-logo-reveal"
         />

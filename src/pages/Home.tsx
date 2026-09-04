@@ -5,21 +5,16 @@ import Reveal from "../components/Reveal";
 import AnimatedText from "../components/AnimatedText";
 import MagneticButton from "../components/MagneticButton";
 import VideoHero from "../components/VideoHero";
-import {
-  timeline,
-  specializations,
-  projects,
-  equipmentHighlights,
-  certifications,
-  awards,
-} from "../data/company";
-import { defaultWhatsappMessage, whatsappLink } from "../lib/whatsapp";
+import { useContent } from "../lib/content";
+import { whatsappLink } from "../lib/whatsapp";
 import { useParallax } from "../lib/useParallax";
 
-const featuredProjects = projects.slice(0, 5);
-
 export default function Home() {
+  const { company, siteSettings, home, timeline, specializations, projects, equipmentHighlights, certifications, awards, contactContent } =
+    useContent();
   const heroBgRef = useParallax<HTMLDivElement>(0.06, 36);
+  const featuredProjects = projects.slice(0, 5);
+  const { sections } = home;
 
   return (
     <>
@@ -27,9 +22,9 @@ export default function Home() {
       <section className="relative h-[92vh] min-h-[600px] max-h-[880px] flex items-end overflow-hidden bg-charcoal">
         <div ref={heroBgRef} className="absolute left-0 right-0" style={{ top: "-6%", bottom: "-6%" }}>
           <VideoHero
-            src="/videos/hero-placeholder.mp4"
-            poster="/images/gallery/kalisindh-trench.jpg"
-            alt="Anand Techno-Fab project sites — pipeline installation, earthwork and mining operations"
+            src={siteSettings.heroVideo}
+            poster={siteSettings.heroPoster}
+            alt={siteSettings.heroVideoAlt}
             className="w-full h-full object-cover"
           />
         </div>
@@ -38,40 +33,38 @@ export default function Home() {
 
         <div className="container-edge relative z-10 pb-14 md:pb-20 pt-32">
           <p className="animate-hero-in label-eyebrow text-rust-light mb-5" style={{ animationDelay: "100ms" }}>
-            Anand Techno-Fab LLP · Ahmedabad, Gujarat
+            {home.heroEyebrow}
           </p>
           <AnimatedText
             as="h1"
             trigger="mount"
             baseDelay={220}
             wordDelay={55}
-            lines={["Engineering Infrastructure.", "Delivering With Precision."]}
+            lines={[home.heroHeadlineLine1, home.heroHeadlineLine2]}
             className="text-white font-semibold uppercase leading-[1.06] tracking-tight text-hero-display max-w-4xl break-words"
           />
           <p
             className="animate-hero-in mt-6 max-w-xl text-ivory/80 text-base md:text-lg leading-relaxed"
             style={{ animationDelay: "380ms" }}
           >
-            Infrastructure development and execution across water pipeline
-            projects, structural fabrication &amp; erection, earthwork,
-            mining and related operations.
+            {home.heroIntro}
           </p>
           <div className="animate-hero-in mt-9 flex flex-wrap gap-4" style={{ animationDelay: "520ms" }}>
             <MagneticButton>
               <Link
-                to="/capabilities"
+                to={home.heroCtaPrimaryTo}
                 className="group inline-flex items-center gap-2.5 bg-rust text-white px-7 py-3.5 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
               >
-                Explore Our Capabilities
+                {home.heroCtaPrimaryLabel}
                 <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </MagneticButton>
             <MagneticButton>
               <Link
-                to="/projects"
+                to={home.heroCtaSecondaryTo}
                 className="group inline-flex items-center gap-2.5 border border-ivory/40 text-white px-7 py-3.5 label-eyebrow hover:border-ivory hover:bg-white/5 transition-all duration-300"
               >
-                View Projects
+                {home.heroCtaSecondaryLabel}
                 <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </MagneticButton>
@@ -83,40 +76,30 @@ export default function Home() {
           style={{ animationDelay: "700ms" }}
         >
           <span className="w-6 h-px bg-ivory/30" />
-          Scroll
+          {home.scrollLabel}
         </div>
       </section>
 
       {/* 2. CREDIBILITY NUMBERS */}
       <section className="bg-charcoal text-ivory border-t border-ivory/10">
         <div className="container-edge py-10 md:py-12 grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-8">
-          <StatBlock dark delay={0} value="20+" label="Years of Field Experience" />
-          <StatBlock dark delay={80} value="15" label="Project References in Profile" />
-          <StatBlock dark delay={160} value="145+" label="Skilled Contractual Workforce" />
-          <StatBlock dark delay={240} value="3" label="ISO Certifications Held" />
+          {home.stats.map((s, i) => (
+            <StatBlock key={s.label} dark delay={i * 80} value={s.value} label={s.label} />
+          ))}
         </div>
       </section>
 
       {/* 3. ABOUT / JOURNEY */}
       <section className="container-edge py-20 md:py-28">
-        <SectionLabel index="01" label="About" />
+        <SectionLabel index={sections.about.eyebrowIndex} label={sections.about.eyebrowLabel} />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase">
-              Two decades of building
-              <br /> India's infrastructure
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase whitespace-pre-line">
+              {sections.about.heading}
             </h2>
-            <p className="mt-6 text-steel leading-relaxed">
-              We started our journey in 2004 with the name Anand Construction,
-              providing services in water pipeline projects and structural
-              fabrication. With years of experience and sustainable growth,
-              the venture was incorporated as Anand Techno-Fab LLP in 2018 to
-              continue the journey in infrastructure development &amp;
-              solutions across irrigation, structural fabrication &amp;
-              erection, earthwork and mining.
-            </p>
+            <p className="mt-6 text-steel leading-relaxed">{sections.about.body}</p>
             <Link to="/about" className="group mt-7 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
-              Read our full story <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+              {sections.about.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </Reveal>
 
@@ -146,13 +129,13 @@ export default function Home() {
           aria-hidden="true"
           className="pointer-events-none select-none absolute -top-6 right-4 md:right-10 text-[8rem] md:text-[13rem] font-semibold text-charcoal/[0.035] leading-none"
         >
-          02
+          {sections.services.eyebrowIndex}
         </span>
         <div className="container-edge py-20 md:py-28 relative">
           <Reveal>
-            <SectionLabel index="02" label="Specializations" />
+            <SectionLabel index={sections.services.eyebrowIndex} label={sections.services.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-              Built for complex project execution
+              {sections.services.heading}
             </h2>
           </Reveal>
 
@@ -177,7 +160,7 @@ export default function Home() {
             ))}
           </div>
           <Link to="/services" className="group mt-8 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
-            All services <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+            {sections.services.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
       </section>
@@ -185,13 +168,13 @@ export default function Home() {
       {/* 5. FEATURED PROJECTS */}
       <section className="container-edge py-20 md:py-28">
         <Reveal>
-          <SectionLabel index="03" label="Project Experience" />
+          <SectionLabel index={sections.projects.eyebrowIndex} label={sections.projects.eyebrowLabel} />
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-xl">
-              Selected project experience
+              {sections.projects.heading}
             </h2>
             <Link to="/projects" className="group label-eyebrow text-rust hover:text-rust-dark inline-flex items-center gap-2">
-              View all 15 projects <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+              {sections.projects.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
         </Reveal>
@@ -219,17 +202,17 @@ export default function Home() {
           aria-hidden="true"
           className="pointer-events-none select-none absolute -top-6 right-4 md:right-10 text-[8rem] md:text-[13rem] font-semibold text-ivory/[0.04] leading-none"
         >
-          04
+          {sections.capability.eyebrowIndex}
         </span>
         <div className="container-edge py-20 md:py-28 relative">
           <Reveal>
-            <SectionLabel index="04" label="Execution Capability" />
+            <SectionLabel index={sections.capability.eyebrowIndex} label={sections.capability.eyebrowLabel} />
             <div className="flex flex-wrap items-end justify-between gap-4">
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-xl text-white">
-                A fleet built for scale
+                {sections.capability.heading}
               </h2>
               <Link to="/capabilities" className="group label-eyebrow text-rust-light hover:text-white inline-flex items-center gap-2">
-                View complete equipment <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+                {sections.capability.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
           </Reveal>
@@ -244,9 +227,9 @@ export default function Home() {
       {/* 7. QUALITY / SAFETY / ENVIRONMENT */}
       <section className="container-edge py-20 md:py-28">
         <Reveal>
-          <SectionLabel index="05" label="Quality, Safety & Environment" />
+          <SectionLabel index={sections.quality.eyebrowIndex} label={sections.quality.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            Certified across quality, safety and environment
+            {sections.quality.heading}
           </h2>
         </Reveal>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -280,52 +263,33 @@ export default function Home() {
       <section className="bg-ivory border-y border-concrete">
         <div className="container-edge py-20 md:py-28">
           <Reveal>
-            <SectionLabel index="06" label="Field Execution" />
+            <SectionLabel index={sections.photography.eyebrowIndex} label={sections.photography.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-              Grounded in real field work
+              {sections.photography.heading}
             </h2>
           </Reveal>
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Reveal as="figure" className="md:row-span-2 overflow-hidden group">
-              <img
-                src="/images/gallery/kalisindh-aerial.jpg"
-                alt="Kalisindh Phase-I, MLIS pipeline route, Dewas, Madhya Pradesh"
-                className="w-full h-full object-cover aspect-[4/3] md:aspect-auto transition-transform duration-700 group-hover:scale-105"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption className="mt-3 text-sm text-steel">
-                Kalisindh Phase-I, MLIS — Dewas, Madhya Pradesh
-              </figcaption>
-            </Reveal>
-            <Reveal as="figure" delay={120} className="overflow-hidden group">
-              <img
-                src="/images/gallery/sauni-earthwork.jpg"
-                alt="Earthwork excavation, SAUNI Yojana L3P3, Gujarat"
-                className="w-full h-full object-cover aspect-[4/3] transition-transform duration-700 group-hover:scale-105"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption className="mt-3 text-sm text-steel">
-                Earthwork Excavation — SAUNI Yojana L3P3, Gujarat
-              </figcaption>
-            </Reveal>
-            <Reveal as="figure" delay={220} className="overflow-hidden group">
-              <img
-                src="/images/gallery/mining-jafrabad-1.jpg"
-                alt="Mining operations, Jafrabad, Amreli"
-                className="w-full h-full object-cover aspect-[4/3] transition-transform duration-700 group-hover:scale-105"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption className="mt-3 text-sm text-steel">
-                Mining Operations — Jafrabad, Amreli
-              </figcaption>
-            </Reveal>
+            {sections.photography.items.map((item, i) => (
+              <Reveal
+                key={item.image}
+                as="figure"
+                delay={i === 0 ? 0 : i * 120}
+                className={`overflow-hidden group ${i === 0 ? "md:row-span-2" : ""}`}
+              >
+                <img
+                  src={item.image}
+                  alt={item.caption}
+                  className={`w-full h-full object-cover ${i === 0 ? "aspect-[4/3] md:aspect-auto" : "aspect-[4/3]"} transition-transform duration-700 group-hover:scale-105`}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption className="mt-3 text-sm text-steel">{item.caption}</figcaption>
+              </Reveal>
+            ))}
           </div>
           <Link to="/gallery" className="group mt-8 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
-            View full gallery <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+            {sections.photography.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
       </section>
@@ -333,9 +297,9 @@ export default function Home() {
       {/* 9. CERTIFICATIONS / RECOGNITION */}
       <section className="container-edge py-20 md:py-28">
         <Reveal>
-          <SectionLabel index="07" label="Recognition" />
+          <SectionLabel index={sections.recognition.eyebrowIndex} label={sections.recognition.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            Recognized by our clients
+            {sections.recognition.heading}
           </h2>
         </Reveal>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -353,7 +317,7 @@ export default function Home() {
           ))}
         </div>
         <Link to="/certifications" className="group mt-8 inline-flex items-center gap-2 label-eyebrow text-rust hover:text-rust-dark">
-          All certifications &amp; awards <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+          {sections.recognition.linkLabel} <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
         </Link>
       </section>
 
@@ -361,7 +325,7 @@ export default function Home() {
       <section className="relative bg-charcoal">
         <div className="absolute inset-0">
           <img
-            src="/images/gallery/welding-cta.jpg"
+            src={sections.finalCta.backgroundImage}
             alt="Structural fabrication and welding work"
             className="w-full h-full object-cover opacity-30"
             loading="lazy"
@@ -370,29 +334,27 @@ export default function Home() {
         </div>
         <Reveal className="relative container-edge py-24 md:py-32 text-center">
           <h2 className="text-white text-3xl md:text-5xl font-semibold uppercase tracking-tight max-w-3xl mx-auto">
-            Have an infrastructure project in mind?
+            {sections.finalCta.heading}
           </h2>
-          <p className="mt-5 text-ivory/70 max-w-lg mx-auto">
-            Let&rsquo;s discuss your requirement.
-          </p>
+          <p className="mt-5 text-ivory/70 max-w-lg mx-auto">{sections.finalCta.body}</p>
           <div className="mt-9 flex flex-wrap gap-4 justify-center">
             <MagneticButton>
               <Link
                 to="/contact"
                 className="group inline-flex items-center gap-2.5 bg-rust text-white px-7 py-3.5 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
               >
-                Start a Conversation
+                {sections.finalCta.ctaPrimaryLabel}
                 <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </MagneticButton>
             <MagneticButton>
               <a
-                href={whatsappLink(defaultWhatsappMessage)}
+                href={whatsappLink(contactContent.whatsappDefaultMessage, company.whatsappNumber)}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-block border border-ivory/40 text-white px-7 py-3.5 label-eyebrow hover:border-ivory hover:bg-white/5 transition-all duration-300"
               >
-                WhatsApp Us
+                {sections.finalCta.ctaSecondaryLabel}
               </a>
             </MagneticButton>
           </div>

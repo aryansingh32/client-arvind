@@ -3,29 +3,23 @@ import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
 import StatBlock from "../components/StatBlock";
 import Reveal from "../components/Reveal";
-import { team, equipment, equipmentHighlights, financials, financialNote } from "../data/company";
-
-// Set to false to withdraw the Financial Track Record section from public view.
-const SHOW_FINANCIALS = true;
+import { useContent } from "../lib/content";
 
 export default function Capabilities() {
+  const { team, equipment, equipmentHighlights, financials, financialNote, pageHeroes, capabilitiesContent } = useContent();
   const [showEquipment, setShowEquipment] = useState(false);
   const maxLakh = Math.max(...financials.map((f) => f.lakh));
 
   return (
     <>
-      <PageHero
-        eyebrow="Capabilities"
-        title="Execution Capacity"
-        intro="A dedicated technical team and a fleet of owned heavy machinery, deployed across concurrent project sites."
-      />
+      <PageHero eyebrow={pageHeroes.capabilities.eyebrow} title={pageHeroes.capabilities.title} intro={pageHeroes.capabilities.intro} />
 
       {/* Team */}
       <section className="container-edge py-16 md:py-24">
         <Reveal>
-          <SectionLabel index="01" label="Execution Team" />
+          <SectionLabel index={capabilitiesContent.team.eyebrowIndex} label={capabilitiesContent.team.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            Our team
+            {capabilitiesContent.team.heading}
           </h2>
         </Reveal>
         <div className="mt-12 grid grid-cols-2 md:grid-cols-5 gap-x-8 gap-y-10">
@@ -33,18 +27,16 @@ export default function Capabilities() {
             <StatBlock key={t.label} delay={i * 70} value={String(t.count)} label={t.label} />
           ))}
         </div>
-        <p className="mt-8 text-sm text-steel max-w-2xl">
-          Unskilled labour is deployed on a contractual basis as per site requirement.
-        </p>
+        <p className="mt-8 text-sm text-steel max-w-2xl">{capabilitiesContent.team.note}</p>
       </section>
 
       {/* Equipment */}
       <section className="bg-charcoal text-ivory">
         <div className="container-edge py-16 md:py-24">
           <Reveal>
-            <SectionLabel index="02" label="Technical Machinery" />
+            <SectionLabel index={capabilitiesContent.equipment.eyebrowIndex} label={capabilitiesContent.equipment.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl text-white">
-              Equipment &amp; technical capability
+              {capabilitiesContent.equipment.heading}
             </h2>
           </Reveal>
 
@@ -58,19 +50,19 @@ export default function Capabilities() {
             onClick={() => setShowEquipment(true)}
             className="group mt-10 inline-flex items-center gap-2.5 bg-rust text-white px-6 py-3 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
           >
-            View Complete Equipment
+            {capabilitiesContent.equipment.ctaLabel}
             <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
           </button>
         </div>
       </section>
 
       {/* Financial track record */}
-      {SHOW_FINANCIALS && (
+      {capabilitiesContent.financials.show && (
         <section className="container-edge py-16 md:py-24">
           <Reveal>
-            <SectionLabel index="03" label="Financial Track Record" />
+            <SectionLabel index={capabilitiesContent.financials.eyebrowIndex} label={capabilitiesContent.financials.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-              Last four years
+              {capabilitiesContent.financials.heading}
             </h2>
           </Reveal>
 
@@ -90,7 +82,7 @@ export default function Capabilities() {
         </section>
       )}
 
-      {showEquipment && <EquipmentDrawer onClose={() => setShowEquipment(false)} />}
+      {showEquipment && <EquipmentDrawer equipment={equipment} onClose={() => setShowEquipment(false)} />}
     </>
   );
 }
@@ -112,7 +104,13 @@ function FinancialBar({ lakh, maxLakh, delay }: { lakh: number; maxLakh: number;
   );
 }
 
-function EquipmentDrawer({ onClose }: { onClose: () => void }) {
+function EquipmentDrawer({
+  equipment,
+  onClose,
+}: {
+  equipment: ReturnType<typeof useContent>["equipment"];
+  onClose: () => void;
+}) {
   return (
     <div className="fixed inset-0 z-[100] flex justify-end">
       <button aria-label="Close equipment table" onClick={onClose} className="absolute inset-0 bg-charcoal/70 animate-scrim-in" />
