@@ -19,7 +19,10 @@ export default function AnimatedNumber({ value, className = "" }: { value: strin
     const el = ref.current;
     if (!el) return;
 
-    if (typeof IntersectionObserver === "undefined") {
+    if (
+      typeof IntersectionObserver === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       setDisplay(String(target));
       return;
     }

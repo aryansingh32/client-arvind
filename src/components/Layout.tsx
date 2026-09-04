@@ -7,11 +7,11 @@ import ScrollProgress from "./ScrollProgress";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-paper text-charcoal">
+    <div className="min-h-screen flex flex-col bg-paper text-charcoal pb-16 md:pb-0">
       <LogoIntro />
       <ScrollProgress />
       <Navbar />
-      <main className="flex-1 pb-16 md:pb-0">{children}</main>
+      <main className="flex-1">{children}</main>
       <Footer />
       <ContactDock />
     </div>
