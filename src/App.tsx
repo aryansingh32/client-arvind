@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
+import RouteTransition from "./components/RouteTransition";
 import { ContentProvider } from "./lib/content";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -18,7 +18,7 @@ import AdminRoute from "./components/admin/AdminRoute";
 function PublicSite() {
   return (
     <Layout>
-      <Routes>
+      <RouteTransition>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/services" element={<Services />} />
@@ -28,7 +28,7 @@ function PublicSite() {
         <Route path="/certifications" element={<Certifications />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
-      </Routes>
+      </RouteTransition>
     </Layout>
   );
 }
@@ -37,7 +37,6 @@ export default function App() {
   return (
     <ContentProvider>
       <BrowserRouter>
-        <ScrollToTop />
         <Routes>
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route

@@ -48,7 +48,7 @@ export default function ProjectExplorer({
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/0 to-transparent" />
         <BlueprintFrame dark className="absolute inset-5 md:inset-8 pointer-events-none" />
         <div className="absolute top-6 left-6 md:top-8 md:left-8">
-          <TechTag dark>
+          <TechTag dark onImage>
             PROJECT {String(active + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
           </TechTag>
         </div>

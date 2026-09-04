@@ -79,7 +79,7 @@ export default function Home() {
 
         <div className="container-edge relative z-10 pb-10 md:pb-16 pt-24 layer-isolate">
           <div className="animate-hero-in mb-4" style={{ animationDelay: "60ms" }}>
-            <TechTag dark>{home.heroTechTag}</TechTag>
+            <TechTag dark onImage>{home.heroTechTag}</TechTag>
           </div>
           <p className="animate-hero-in label-eyebrow text-rust-light mb-4" style={{ animationDelay: "160ms" }}>
             {home.heroEyebrow}
@@ -130,8 +130,12 @@ export default function Home() {
       </section>
 
       {/* 2. STATS — one giant number, dark, continues the hero */}
-      <section className="bg-charcoal text-ivory border-t border-ivory/10">
-        <div className="container-edge py-16 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end">
+      <section className="relative bg-charcoal text-ivory border-t border-ivory/10 overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -left-16 top-1/2 -translate-y-1/2 w-[36rem] h-[36rem] bg-[radial-gradient(circle,rgba(184,83,31,0.16),transparent_65%)]"
+        />
+        <div className="relative container-edge py-16 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-end">
           <Reveal className="lg:col-span-7">
             <BlueprintFrame dark className="inline-block">
               <AnimatedNumber value={heroStat.value} className="block text-stat-giant font-semibold tracking-tight text-white leading-[0.85] px-2 py-1" />
@@ -151,6 +155,7 @@ export default function Home() {
 
       {/* 3. ABOUT / JOURNEY — light, giant full-width stacked headline, asymmetric body below */}
       <section className="relative container-edge py-24 md:py-32 overflow-hidden">
+        <div aria-hidden="true" className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-charcoal to-transparent pointer-events-none" />
         <BgNumeral>{sections.about.eyebrowIndex}</BgNumeral>
         <div className="relative">
           <TechTag className="mb-6">{sections.about.eyebrowLabel}</TechTag>
@@ -298,7 +303,7 @@ export default function Home() {
 
           <div className="relative h-full container-edge flex items-end pb-16 md:pb-20">
             <Reveal>
-              <TechTag dark className="mb-6">{sections.photography.eyebrowLabel}</TechTag>
+              <TechTag dark onImage className="mb-6">{sections.photography.eyebrowLabel}</TechTag>
               <h2 className="text-editorial-display font-semibold uppercase tracking-tight leading-[0.98] text-white whitespace-pre-line">
                 {sections.photography.heading}
               </h2>
