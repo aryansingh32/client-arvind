@@ -198,6 +198,8 @@ function ProjectDetail({ project, onClose }: { project: Project; onClose: () => 
                   src={img}
                   alt={project.title}
                   className={`w-full object-cover ${img === images[0] ? "col-span-2 aspect-[16/9]" : "aspect-square"}`}
+                  loading="lazy"
+                  decoding="async"
                 />
               ))}
             </div>

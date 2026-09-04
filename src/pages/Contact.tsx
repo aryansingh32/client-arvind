@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
 import Reveal from "../components/Reveal";
+import MagneticButton from "../components/MagneticButton";
 import { company, specializations } from "../data/company";
 import { buildEnquiryMessage, mailLink, telLink, whatsappLink } from "../lib/whatsapp";
 
@@ -150,13 +151,15 @@ export default function Contact() {
                   </label>
                 </Field>
 
-                <button
-                  type="submit"
-                  className="group w-full md:w-auto inline-flex items-center justify-center gap-2.5 bg-charcoal text-paper px-8 py-4 label-eyebrow hover:bg-rust hover:shadow-[0_6px_24px_rgba(184,83,31,0.35)] transition-all duration-300"
-                >
-                  Send Project Enquiry
-                  <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
+                <MagneticButton className="w-full md:w-auto">
+                  <button
+                    type="submit"
+                    className="group w-full md:w-auto inline-flex items-center justify-center gap-2.5 bg-charcoal text-paper px-8 py-4 label-eyebrow hover:bg-rust hover:shadow-[0_6px_24px_rgba(184,83,31,0.35)] transition-all duration-300"
+                  >
+                    Send Project Enquiry
+                    <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </button>
+                </MagneticButton>
               </form>
             ) : (
               <div className="mt-10 border border-rust/40 bg-paper p-8 animate-fade-up">

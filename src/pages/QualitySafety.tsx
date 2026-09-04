@@ -36,6 +36,8 @@ export default function QualitySafety() {
             src="/images/gallery/safety-training.jpg"
             alt="Field safety training session"
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
+            decoding="async"
           />
         </Reveal>
       </section>
@@ -48,6 +50,8 @@ export default function QualitySafety() {
               src="/images/gallery/health-checkup-camp.jpg"
               alt="Employee health checkup camp at project site"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
             />
           </Reveal>
           <Reveal delay={150} className="lg:col-span-6">
@@ -80,15 +84,24 @@ export default function QualitySafety() {
         </Reveal>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
           <Reveal as="figure" delay={0} className="overflow-hidden group">
-            <img src="/images/gallery/isp-kalisindh-workforce.jpg" alt="Site workforce briefing at ISP-Kalisindh Ph-I, MLIS" className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src="/images/gallery/isp-kalisindh-workforce.jpg" alt="Site workforce briefing at ISP-Kalisindh Ph-I, MLIS" className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+            />
             <figcaption className="mt-3 text-sm text-steel">Site workforce briefing — ISP-Kalisindh Ph-I, MLIS</figcaption>
           </Reveal>
           <Reveal as="figure" delay={100} className="overflow-hidden group">
-            <img src="/images/gallery/safety-training.jpg" alt="Field safety training session" className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src="/images/gallery/safety-training.jpg" alt="Field safety training session" className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+            />
             <figcaption className="mt-3 text-sm text-steel">Field safety training session</figcaption>
           </Reveal>
           <Reveal as="figure" delay={200} className="overflow-hidden group">
-            <img src="/images/gallery/health-checkup-camp.jpg" alt="Health checkup camp, Kalisindh Phase 1 MLIS project" className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105" />
+            <img src="/images/gallery/health-checkup-camp.jpg" alt="Health checkup camp, Kalisindh Phase 1 MLIS project" className="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+            />
             <figcaption className="mt-3 text-sm text-steel">Health checkup camp — Kalisindh Phase 1, MLIS</figcaption>
           </Reveal>
         </div>

@@ -7,7 +7,13 @@ export default function Footer() {
     <footer className="bg-charcoal text-ivory/80">
       <div className="container-edge py-14 md:py-16 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
         <div className="md:col-span-5">
-          <img src="/images/logo.png" alt="Anand Techno-Fab LLP" className="h-10 w-auto mb-4 bg-paper/95 p-1.5" />
+          <img
+            src="/images/logo.png"
+            alt="Anand Techno-Fab LLP"
+            className="h-10 w-auto mb-4"
+            loading="lazy"
+            decoding="async"
+          />
           <p className="text-ivory text-lg font-medium">{company.legalName}</p>
           <p className="mt-1 text-sm text-ivory/60">{company.tagline}</p>
           <p className="mt-6 text-sm leading-relaxed max-w-sm text-ivory/60">

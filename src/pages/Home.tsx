@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import SectionLabel from "../components/SectionLabel";
 import StatBlock from "../components/StatBlock";
 import Reveal from "../components/Reveal";
+import AnimatedText from "../components/AnimatedText";
+import MagneticButton from "../components/MagneticButton";
 import {
   timeline,
   specializations,
@@ -11,19 +13,27 @@ import {
   awards,
 } from "../data/company";
 import { defaultWhatsappMessage, whatsappLink } from "../lib/whatsapp";
+import { useParallax } from "../lib/useParallax";
 
 const featuredProjects = projects.slice(0, 5);
 
 export default function Home() {
+  const heroBgRef = useParallax<HTMLDivElement>(0.06, 36);
+
   return (
     <>
       {/* 1. HERO */}
       <section className="relative h-[92vh] min-h-[600px] max-h-[880px] flex items-end overflow-hidden bg-charcoal">
-        <img
-          src="/images/gallery/kalisindh-trench.jpg"
-          alt="Pipeline installation at Kalisindh Phase-I, MLIS, L&T ECC Division, Sonkach, Dewas, MP"
-          className="absolute inset-0 w-full h-full object-cover animate-ken-burns"
-        />
+        <div ref={heroBgRef} className="absolute left-0 right-0" style={{ top: "-6%", bottom: "-6%" }}>
+          <img
+            src="/images/gallery/kalisindh-trench.jpg"
+            alt="Pipeline installation at Kalisindh Phase-I, MLIS, L&T ECC Division, Sonkach, Dewas, MP"
+            className="w-full h-full object-cover animate-ken-burns"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/55 to-charcoal/10" />
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal/70 via-charcoal/20 to-transparent" />
 
@@ -31,14 +41,14 @@ export default function Home() {
           <p className="animate-hero-in label-eyebrow text-rust-light mb-5" style={{ animationDelay: "100ms" }}>
             Anand Techno-Fab LLP · Ahmedabad, Gujarat
           </p>
-          <h1
-            className="animate-hero-in text-white font-semibold uppercase leading-[1.06] tracking-tight text-[1.9rem] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl max-w-4xl break-words"
-            style={{ animationDelay: "220ms" }}
-          >
-            Engineering Infrastructure.
-            <br />
-            Delivering With Precision.
-          </h1>
+          <AnimatedText
+            as="h1"
+            trigger="mount"
+            baseDelay={220}
+            wordDelay={55}
+            lines={["Engineering Infrastructure.", "Delivering With Precision."]}
+            className="text-white font-semibold uppercase leading-[1.06] tracking-tight text-hero-display max-w-4xl break-words"
+          />
           <p
             className="animate-hero-in mt-6 max-w-xl text-ivory/80 text-base md:text-lg leading-relaxed"
             style={{ animationDelay: "380ms" }}
@@ -48,20 +58,24 @@ export default function Home() {
             mining and related operations.
           </p>
           <div className="animate-hero-in mt-9 flex flex-wrap gap-4" style={{ animationDelay: "520ms" }}>
-            <Link
-              to="/capabilities"
-              className="group inline-flex items-center gap-2.5 bg-rust text-white px-7 py-3.5 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
-            >
-              Explore Our Capabilities
-              <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-            <Link
-              to="/projects"
-              className="group inline-flex items-center gap-2.5 border border-ivory/40 text-white px-7 py-3.5 label-eyebrow hover:border-ivory hover:bg-white/5 transition-all duration-300"
-            >
-              View Projects
-              <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
+            <MagneticButton>
+              <Link
+                to="/capabilities"
+                className="group inline-flex items-center gap-2.5 bg-rust text-white px-7 py-3.5 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
+              >
+                Explore Our Capabilities
+                <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </MagneticButton>
+            <MagneticButton>
+              <Link
+                to="/projects"
+                className="group inline-flex items-center gap-2.5 border border-ivory/40 text-white px-7 py-3.5 label-eyebrow hover:border-ivory hover:bg-white/5 transition-all duration-300"
+              >
+                View Projects
+                <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </MagneticButton>
           </div>
         </div>
 
@@ -128,8 +142,14 @@ export default function Home() {
       </section>
 
       {/* 4. SERVICES */}
-      <section className="bg-ivory border-y border-concrete">
-        <div className="container-edge py-20 md:py-28">
+      <section className="relative bg-ivory border-y border-concrete overflow-hidden">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none select-none absolute -top-6 right-4 md:right-10 text-[8rem] md:text-[13rem] font-semibold text-charcoal/[0.035] leading-none"
+        >
+          02
+        </span>
+        <div className="container-edge py-20 md:py-28 relative">
           <Reveal>
             <SectionLabel index="02" label="Specializations" />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
@@ -145,6 +165,8 @@ export default function Home() {
                     src={s.image}
                     alt={s.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="p-5">
@@ -193,8 +215,14 @@ export default function Home() {
       </section>
 
       {/* 6. EXECUTION CAPABILITY */}
-      <section className="bg-charcoal text-ivory">
-        <div className="container-edge py-20 md:py-28">
+      <section className="relative bg-charcoal text-ivory overflow-hidden">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none select-none absolute -top-6 right-4 md:right-10 text-[8rem] md:text-[13rem] font-semibold text-ivory/[0.04] leading-none"
+        >
+          04
+        </span>
+        <div className="container-edge py-20 md:py-28 relative">
           <Reveal>
             <SectionLabel index="04" label="Execution Capability" />
             <div className="flex flex-wrap items-end justify-between gap-4">
@@ -234,6 +262,8 @@ export default function Home() {
                     src={c.image}
                     alt={c.standard}
                     className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="p-6">
@@ -263,6 +293,8 @@ export default function Home() {
                 src="/images/gallery/kalisindh-aerial.jpg"
                 alt="Kalisindh Phase-I, MLIS pipeline route, Dewas, Madhya Pradesh"
                 className="w-full h-full object-cover aspect-[4/3] md:aspect-auto transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
               />
               <figcaption className="mt-3 text-sm text-steel">
                 Kalisindh Phase-I, MLIS — Dewas, Madhya Pradesh
@@ -273,6 +305,8 @@ export default function Home() {
                 src="/images/gallery/sauni-earthwork.jpg"
                 alt="Earthwork excavation, SAUNI Yojana L3P3, Gujarat"
                 className="w-full h-full object-cover aspect-[4/3] transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
               />
               <figcaption className="mt-3 text-sm text-steel">
                 Earthwork Excavation — SAUNI Yojana L3P3, Gujarat
@@ -283,6 +317,8 @@ export default function Home() {
                 src="/images/gallery/mining-jafrabad-1.jpg"
                 alt="Mining operations, Jafrabad, Amreli"
                 className="w-full h-full object-cover aspect-[4/3] transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
               />
               <figcaption className="mt-3 text-sm text-steel">
                 Mining Operations — Jafrabad, Amreli
@@ -329,6 +365,8 @@ export default function Home() {
             src="/images/gallery/welding-cta.jpg"
             alt="Structural fabrication and welding work"
             className="w-full h-full object-cover opacity-30"
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <Reveal className="relative container-edge py-24 md:py-32 text-center">
@@ -339,21 +377,25 @@ export default function Home() {
             Let&rsquo;s discuss your requirement.
           </p>
           <div className="mt-9 flex flex-wrap gap-4 justify-center">
-            <Link
-              to="/contact"
-              className="group inline-flex items-center gap-2.5 bg-rust text-white px-7 py-3.5 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
-            >
-              Start a Conversation
-              <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-            <a
-              href={whatsappLink(defaultWhatsappMessage)}
-              target="_blank"
-              rel="noreferrer"
-              className="border border-ivory/40 text-white px-7 py-3.5 label-eyebrow hover:border-ivory hover:bg-white/5 transition-all duration-300"
-            >
-              WhatsApp Us
-            </a>
+            <MagneticButton>
+              <Link
+                to="/contact"
+                className="group inline-flex items-center gap-2.5 bg-rust text-white px-7 py-3.5 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
+              >
+                Start a Conversation
+                <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </MagneticButton>
+            <MagneticButton>
+              <a
+                href={whatsappLink(defaultWhatsappMessage)}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block border border-ivory/40 text-white px-7 py-3.5 label-eyebrow hover:border-ivory hover:bg-white/5 transition-all duration-300"
+              >
+                WhatsApp Us
+              </a>
+            </MagneticButton>
           </div>
         </Reveal>
       </section>

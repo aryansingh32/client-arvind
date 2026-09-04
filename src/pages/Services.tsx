@@ -30,6 +30,8 @@ export default function Services() {
                 src={s.image}
                 alt={s.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
               />
             </Reveal>
             <Reveal as="div" delay={120} className={`lg:col-span-7 ${i % 2 === 1 ? "lg:order-1" : ""}`}>

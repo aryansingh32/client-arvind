@@ -54,6 +54,17 @@ body {
   }
 }
 
+/* Typography scale — clamp() gives smooth scaling between breakpoints
+   instead of discrete jumps (which previously caused a mid-word wrap on
+   the hero headline at in-between viewport widths). */
+.text-hero-display {
+  font-size: clamp(1.9rem, 1.1rem + 4.2vw, 4.5rem);
+}
+
+.text-page-display {
+  font-size: clamp(2.1rem, 1.65rem + 2.4vw, 3.75rem);
+}
+
 .label-eyebrow {
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -154,6 +165,36 @@ body {
 
 .animate-scrim-in {
   animation: scrim-in 0.3s ease both;
+}
+
+@keyframes logo-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-logo-reveal {
+  animation: logo-reveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes logo-sweep {
+  from {
+    transform: translateX(-120%) skewX(-12deg);
+  }
+  to {
+    transform: translateX(420%) skewX(-12deg);
+  }
+}
+
+.animate-logo-sweep {
+  animation: logo-sweep 0.6s ease-in-out 0.45s both;
 }
 
 @media (prefers-reduced-motion: reduce) {

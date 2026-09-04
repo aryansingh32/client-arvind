@@ -47,6 +47,8 @@ export default function About() {
                 src={company.partners[0].photo}
                 alt="Amit Singh Rajput, Partner & CEO, Anand Techno-Fab LLP"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/5 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-7">
