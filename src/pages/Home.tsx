@@ -4,6 +4,7 @@ import StatBlock from "../components/StatBlock";
 import Reveal from "../components/Reveal";
 import AnimatedText from "../components/AnimatedText";
 import MagneticButton from "../components/MagneticButton";
+import VideoHero from "../components/VideoHero";
 import {
   timeline,
   specializations,
@@ -25,13 +26,11 @@ export default function Home() {
       {/* 1. HERO */}
       <section className="relative h-[92vh] min-h-[600px] max-h-[880px] flex items-end overflow-hidden bg-charcoal">
         <div ref={heroBgRef} className="absolute left-0 right-0" style={{ top: "-6%", bottom: "-6%" }}>
-          <img
-            src="/images/gallery/kalisindh-trench.jpg"
-            alt="Pipeline installation at Kalisindh Phase-I, MLIS, L&T ECC Division, Sonkach, Dewas, MP"
-            className="w-full h-full object-cover animate-ken-burns"
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
+          <VideoHero
+            src="/videos/hero-placeholder.mp4"
+            poster="/images/gallery/kalisindh-trench.jpg"
+            alt="Anand Techno-Fab project sites — pipeline installation, earthwork and mining operations"
+            className="w-full h-full object-cover"
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/55 to-charcoal/10" />
