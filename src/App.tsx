@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Layout from "./components/Layout";
+import { ContentProvider } from "./lib/content";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -10,24 +11,46 @@ import QualitySafety from "./pages/QualitySafety";
 import Certifications from "./pages/Certifications";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
+import AdminLogin from "./pages/admin/Login";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminRoute from "./components/admin/AdminRoute";
+
+function PublicSite() {
+  return (
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/capabilities" element={<Capabilities />} />
+        <Route path="/quality-safety" element={<QualitySafety />} />
+        <Route path="/certifications" element={<Certifications />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </Layout>
+  );
+}
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Layout>
+    <ContentProvider>
+      <BrowserRouter>
+        <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/capabilities" element={<Capabilities />} />
-          <Route path="/quality-safety" element={<QualitySafety />} />
-          <Route path="/certifications" element={<Certifications />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            path="/admin/*"
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            }
+          />
+          <Route path="/*" element={<PublicSite />} />
         </Routes>
-      </Layout>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ContentProvider>
   );
 }

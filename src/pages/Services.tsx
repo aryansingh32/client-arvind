@@ -1,16 +1,13 @@
 import { Link } from "react-router-dom";
 import PageHero from "../components/PageHero";
 import Reveal from "../components/Reveal";
-import { specializations } from "../data/company";
+import { useContent } from "../lib/content";
 
 export default function Services() {
+  const { specializations, pageHeroes } = useContent();
   return (
     <>
-      <PageHero
-        eyebrow="Services"
-        title="What We Specialize In"
-        intro="We undertake turnkey projects across five core specializations, built on 20 years of varied field experience."
-      />
+      <PageHero index="02" eyebrow={pageHeroes.services.eyebrow} title={pageHeroes.services.title} intro={pageHeroes.services.intro} />
 
       <section className="container-edge py-16 md:py-24">
         {specializations.map((s, i) => (

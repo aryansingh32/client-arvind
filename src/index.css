@@ -35,6 +35,15 @@ body {
   color: white;
 }
 
+/* Grid items default to min-width:auto, which refuses to shrink below its
+   content's intrinsic width and can push a narrow column wider than its
+   track — a real risk here since admin-edited copy length is unpredictable.
+   This only affects the shrink floor, never the rendered size when content
+   already fits, so it's safe to apply globally. */
+.grid > * {
+  min-width: 0;
+}
+
 .container-edge {
   width: 100%;
   max-width: 1440px;
@@ -65,11 +74,55 @@ body {
   font-size: clamp(2.1rem, 1.65rem + 2.4vw, 3.75rem);
 }
 
+/* Cinematic-scale display type — hero headline, up to ~112px on wide desktop.
+   The vw coefficient is deliberately conservative so a long single word
+   (e.g. "INFRASTRUCTURE.") never grows wider than a narrow mobile viewport —
+   break-words on the element itself is the safety net if it ever does. */
+.text-cinema-display {
+  font-size: clamp(1.9rem, 0.85rem + 4.6vw, 7rem);
+  overflow-wrap: break-word;
+}
+
+/* Stacked editorial section headlines ("TWO DECADES / OF BUILDING / ..."). */
+.text-editorial-display {
+  font-size: clamp(1.9rem, 0.85rem + 5vw, 6.25rem);
+  overflow-wrap: break-word;
+}
+
+/* The number itself is the hero — used for the giant stat moment. */
+.text-stat-giant {
+  font-size: clamp(4.5rem, 1rem + 16vw, 14rem);
+}
+
+/* Faint oversized numerals sitting behind section content as a background element. */
+.text-bg-numeral {
+  font-size: clamp(7rem, 4rem + 16vw, 22rem);
+  line-height: 0.8;
+}
+
+/* Small monospace engineering-drawing style metadata tag: "ATF / 001 — ENGINEERING". */
+.tech-tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  overflow-wrap: break-word;
+}
+
+/* Isolates a layer from an animated sibling's compositing/repaint cascade —
+   used on hero text overlays sitting above the auto-playing/parallaxed video
+   so hairline dividers inside don't shimmer as the video layer repaints. */
+.layer-isolate {
+  isolation: isolate;
+  transform: translateZ(0);
+}
+
 .label-eyebrow {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  overflow-wrap: break-word;
 }
 
 @keyframes fade-up {
@@ -139,6 +192,10 @@ body {
   }
 }
 
+.animate-line-draw {
+  animation: underline-grow 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @keyframes slide-in-right {
   from {
     opacity: 0;
@@ -195,6 +252,21 @@ body {
 
 .animate-logo-sweep {
   animation: logo-sweep 0.6s ease-in-out 0.45s both;
+}
+
+@keyframes wa-pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.12);
+  }
+}
+
+.animate-wa-pulse {
+  animation: wa-pulse 2.6s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

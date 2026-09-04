@@ -1,13 +1,12 @@
 import { useMemo, useState } from "react";
 import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
+import TechTag from "../components/TechTag";
 import Reveal from "../components/Reveal";
-import {
-  concurrentCommitments,
-  projectFilters,
-  projects,
-  type Project,
-} from "../data/company";
+import ProjectExplorer from "../components/ProjectExplorer";
+import { useContent } from "../lib/content";
+
+type Project = ReturnType<typeof useContent>["projects"][number];
 
 const projectImages: Record<string, string[]> = {
   "isp-kalisindh": [
@@ -23,28 +22,25 @@ const projectImages: Record<string, string[]> = {
 };
 
 export default function Projects() {
+  const { concurrentCommitments, projectFilters, projects, pageHeroes, projectsContent } = useContent();
   const [filter, setFilter] = useState<(typeof projectFilters)[number]>("All");
   const [selected, setSelected] = useState<Project | null>(null);
 
   const filtered = useMemo(() => {
     if (filter === "All") return projects;
     return projects.filter((p) => p.categories.includes(filter as never));
-  }, [filter]);
+  }, [filter, projects]);
 
   return (
     <>
-      <PageHero
-        eyebrow="Projects"
-        title="Project Experience"
-        intro="Fifteen project references drawn from the company profile, executed for clients including L&T, Kalpataru, JMC and ESSAR."
-      />
+      <PageHero index="03" eyebrow={pageHeroes.projects.eyebrow} title={pageHeroes.projects.title} intro={pageHeroes.projects.intro} />
 
       {/* Concurrent commitments */}
       <section className="container-edge py-16 md:py-24">
         <Reveal>
-          <SectionLabel index="01" label="Concurrent Commitments" />
+          <SectionLabel index={projectsContent.concurrent.eyebrowIndex} label={projectsContent.concurrent.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            Currently in execution
+            {projectsContent.concurrent.heading}
           </h2>
         </Reveal>
 
@@ -72,14 +68,31 @@ export default function Projects() {
         </div>
       </section>
 
+      {/* Project Explorer — every project referenced in the profile, one at a time */}
+      <section className="bg-charcoal text-ivory">
+        <div className="container-edge py-16 md:py-24">
+          <Reveal>
+            <TechTag dark className="mb-6">
+              Project Explorer
+            </TechTag>
+            <h2 className="text-editorial-display font-semibold uppercase tracking-tight leading-[0.98] text-white max-w-2xl whitespace-pre-line">
+              {"Every project,\nin detail."}
+            </h2>
+          </Reveal>
+          <Reveal delay={150} className="mt-12 md:mt-16">
+            <ProjectExplorer projects={projects} />
+          </Reveal>
+        </div>
+      </section>
+
       {/* Project archive */}
       <section className="bg-ivory border-y border-concrete">
         <div className="container-edge py-16 md:py-24">
           <Reveal>
-            <SectionLabel index="02" label="Project Archive" />
+            <SectionLabel index={projectsContent.archive.eyebrowIndex} label={projectsContent.archive.eyebrowLabel} />
             <div className="flex flex-wrap items-end justify-between gap-6">
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-xl">
-                Work experience
+                {projectsContent.archive.heading}
               </h2>
               <div className="flex flex-wrap gap-2">
                 {projectFilters.map((f) => (

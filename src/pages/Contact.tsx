@@ -3,7 +3,7 @@ import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
 import Reveal from "../components/Reveal";
 import MagneticButton from "../components/MagneticButton";
-import { company, specializations } from "../data/company";
+import { useContent } from "../lib/content";
 import { buildEnquiryMessage, mailLink, telLink, whatsappLink } from "../lib/whatsapp";
 
 interface FormState {
@@ -29,6 +29,7 @@ const initialState: FormState = {
 };
 
 export default function Contact() {
+  const { company, specializations, pageHeroes, contactContent } = useContent();
   const [form, setForm] = useState<FormState>(initialState);
   const [submitted, setSubmitted] = useState(false);
 
@@ -45,11 +46,7 @@ export default function Contact() {
 
   return (
     <>
-      <PageHero
-        eyebrow="Contact"
-        title="Let's Discuss Your Project"
-        intro="Reach us directly by phone, email or WhatsApp, or send a project enquiry using the form below."
-      />
+      <PageHero index="08" eyebrow={pageHeroes.contact.eyebrow} title={pageHeroes.contact.title} intro={pageHeroes.contact.intro} />
 
       {/* Quick contact */}
       <section className="container-edge py-16 md:py-20">
@@ -75,7 +72,7 @@ export default function Contact() {
           <Reveal
             as="a"
             delay={200}
-            href={whatsappLink("Hello Anand Techno-Fab LLP, I would like to discuss a project requirement. Please let me know how we can proceed.")}
+            href={whatsappLink(contactContent.whatsappDefaultMessage, company.whatsappNumber)}
             target="_blank"
             rel="noreferrer"
             className="block bg-paper p-8 hover:bg-ivory hover:-translate-y-0.5 transition-all duration-300 group"
@@ -91,9 +88,9 @@ export default function Contact() {
       <section className="bg-ivory border-y border-concrete">
         <div className="container-edge py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12">
           <Reveal className="lg:col-span-7">
-            <SectionLabel index="01" label="Project Enquiry" />
+            <SectionLabel index={contactContent.enquiry.eyebrowIndex} label={contactContent.enquiry.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-lg">
-              Send a project enquiry
+              {contactContent.enquiry.heading}
             </h2>
 
             {!submitted ? (
@@ -174,7 +171,7 @@ export default function Contact() {
                 </p>
                 <div className="mt-6 flex flex-wrap gap-4">
                   <a
-                    href={whatsappLink(message)}
+                    href={whatsappLink(message, company.whatsappNumber)}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 bg-rust text-white px-6 py-3 label-eyebrow hover:bg-rust-dark transition-colors"
@@ -199,9 +196,9 @@ export default function Contact() {
           </Reveal>
 
           <Reveal delay={150} className="lg:col-span-5">
-            <SectionLabel index="02" label="Registered Office" />
+            <SectionLabel index={contactContent.office.eyebrowIndex} label={contactContent.office.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-lg">
-              Visit us
+              {contactContent.office.heading}
             </h2>
             <p className="mt-6 text-charcoal/80 leading-relaxed">{company.registeredAddress}</p>
 

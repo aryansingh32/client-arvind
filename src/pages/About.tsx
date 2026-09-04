@@ -1,29 +1,22 @@
 import PageHero from "../components/PageHero";
 import SectionLabel from "../components/SectionLabel";
 import Reveal from "../components/Reveal";
-import {
-  company,
-  timeline,
-  specializations,
-  methodology,
-  commitment,
-} from "../data/company";
+import { useContent } from "../lib/content";
 
 export default function About() {
+  const { company, timeline, specializations, methodology, commitment, pageHeroes, aboutContent } = useContent();
+  const ceo = company.partners[0];
+
   return (
     <>
-      <PageHero
-        eyebrow="About Us"
-        title="About Anand Techno-Fab"
-        intro="A team of young, dynamic and technically qualified personnel with 20 years of varied experience in infrastructure execution."
-      />
+      <PageHero index="01" eyebrow={pageHeroes.about.eyebrow} title={pageHeroes.about.title} intro={pageHeroes.about.intro} />
 
       {/* Journey */}
       <section className="container-edge py-20 md:py-28">
         <Reveal>
-          <SectionLabel index="01" label="Our Journey" />
+          <SectionLabel index={aboutContent.journey.eyebrowIndex} label={aboutContent.journey.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            From Anand Construction to Anand Techno-Fab LLP
+            {aboutContent.journey.heading}
           </h2>
         </Reveal>
 
@@ -43,37 +36,31 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           <Reveal className="lg:col-span-5">
             <div className="relative aspect-[4/5] overflow-hidden bg-charcoal">
-              <img
-                src={company.partners[0].photo}
-                alt="Amit Singh Rajput, Partner & CEO, Anand Techno-Fab LLP"
-                className="w-full h-full object-cover"
-                loading="lazy"
-                decoding="async"
-              />
+              {ceo?.photo && (
+                <img
+                  src={ceo.photo}
+                  alt={`${ceo.name.replace(/^Mr\.\s*/, "")}, ${ceo.role}, Anand Techno-Fab LLP`}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/5 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-7">
-                <p className="label-eyebrow text-rust-light">{company.partners[0].role}</p>
+                <p className="label-eyebrow text-rust-light">{ceo?.role}</p>
                 <p className="mt-1.5 text-2xl md:text-3xl font-semibold text-white uppercase tracking-tight leading-tight">
-                  Amit Singh Rajput
+                  {ceo?.name.replace(/^Mr\.\s*/, "")}
                 </p>
               </div>
             </div>
           </Reveal>
 
           <Reveal delay={150} className="lg:col-span-7">
-            <SectionLabel index="02" label="Leadership" />
+            <SectionLabel index={aboutContent.leadership.eyebrowIndex} label={aboutContent.leadership.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-lg">
-              Hands-on leadership, on every site
+              {aboutContent.leadership.heading}
             </h2>
-            <p className="mt-6 text-charcoal/80 leading-relaxed max-w-lg">
-              Anand Techno-Fab LLP is led by two partners — Mr. Amit Singh
-              Rajput as Partner &amp; CEO, and Mr. Suneel Kumar Singh as
-              Partner &amp; CFO. Together they carry the twenty years of
-              field experience behind the company&rsquo;s journey from Anand
-              Construction in 2004 to Anand Techno-Fab LLP today, overseeing
-              execution, quality and client relationships across every
-              concurrent project site.
-            </p>
+            <p className="mt-6 text-charcoal/80 leading-relaxed max-w-lg">{aboutContent.leadership.body}</p>
             <div className="mt-8 grid grid-cols-2 gap-6 border-t border-concrete pt-6 max-w-md">
               {company.partners.map((p) => (
                 <div key={p.name}>
@@ -90,9 +77,9 @@ export default function About() {
       <section className="bg-ivory border-y border-concrete">
         <div className="container-edge py-20 md:py-28">
           <Reveal>
-            <SectionLabel index="03" label="What We Do" />
+            <SectionLabel index={aboutContent.whatWeDo.eyebrowIndex} label={aboutContent.whatWeDo.eyebrowLabel} />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-              An upcoming construction company undertaking turnkey projects
+              {aboutContent.whatWeDo.heading}
             </h2>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -114,13 +101,11 @@ export default function About() {
       {/* Approach / methodology */}
       <section className="container-edge py-20 md:py-28">
         <Reveal>
-          <SectionLabel index="04" label="Our Approach" />
+          <SectionLabel index={aboutContent.approach.eyebrowIndex} label={aboutContent.approach.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            How we work
+            {aboutContent.approach.heading}
           </h2>
-          <p className="mt-4 max-w-2xl text-steel">
-            Our execution methodology, applied consistently across every project site.
-          </p>
+          <p className="mt-4 max-w-2xl text-steel">{aboutContent.approach.body}</p>
         </Reveal>
 
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-concrete border border-concrete">
@@ -142,9 +127,9 @@ export default function About() {
       <section className="bg-charcoal text-ivory">
         <div className="container-edge py-20 md:py-28 grid grid-cols-1 md:grid-cols-12 gap-10">
           <Reveal className="md:col-span-4">
-            <SectionLabel index="05" label="Commitment" />
+            <SectionLabel index={aboutContent.commitmentSection.eyebrowIndex} label={aboutContent.commitmentSection.eyebrowLabel} />
             <h2 className="text-3xl font-semibold tracking-tight uppercase text-white">
-              Fully committed to excellence
+              {aboutContent.commitmentSection.heading}
             </h2>
           </Reveal>
           <Reveal delay={150} className="md:col-span-8 md:pt-1">
@@ -156,9 +141,9 @@ export default function About() {
       {/* Corporate details */}
       <section className="container-edge py-20 md:py-28">
         <Reveal>
-          <SectionLabel index="06" label="Company Information" />
+          <SectionLabel index={aboutContent.corporateDetails.eyebrowIndex} label={aboutContent.corporateDetails.eyebrowLabel} />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight uppercase max-w-2xl">
-            Corporate details
+            {aboutContent.corporateDetails.heading}
           </h2>
         </Reveal>
 

@@ -1,10 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
-import { company, nav } from "../data/company";
-import { mailLink, telLink, whatsappLink, defaultWhatsappMessage } from "../lib/whatsapp";
+import { mailLink, telLink, whatsappLink } from "../lib/whatsapp";
+import { useContent } from "../lib/content";
 import Reveal from "./Reveal";
+import AnimatedText from "./AnimatedText";
 import MagneticButton from "./MagneticButton";
 
 export default function Footer() {
+  const { company, nav, siteSettings, footerContent, contactContent } = useContent();
+
   // Home already closes with its own full-bleed photo CTA immediately above
   // the footer — repeating the same "Start a Conversation / WhatsApp Us"
   // pair right below it would read as redundant, not premium.
@@ -13,14 +16,23 @@ export default function Footer() {
 
   return (
     <footer className="bg-charcoal text-ivory/80">
+      {/* Final brand statement — the last thing a visitor sees, on every page. */}
+      <div className="container-edge pt-20 pb-12 md:pt-28 md:pb-16">
+        <AnimatedText
+          as="h2"
+          lines={footerContent.brandStatement.split("\n")}
+          className="text-editorial-display font-semibold uppercase tracking-tight leading-[0.98] text-white"
+        />
+      </div>
+
       {showClosingCta && (
       <div className="border-b border-ivory/10">
         <div className="container-edge py-16 md:py-20">
           <Reveal>
-            <p className="label-eyebrow text-rust-light mb-4">— Get In Touch</p>
+            <p className="label-eyebrow text-rust-light mb-4">— {footerContent.ctaEyebrow}</p>
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
               <h2 className="text-3xl md:text-5xl font-semibold uppercase tracking-tight text-white max-w-2xl leading-[1.08]">
-                Let&rsquo;s engineer your next project.
+                {footerContent.ctaHeading}
               </h2>
               <div className="flex flex-wrap gap-4 shrink-0">
                 <MagneticButton>
@@ -28,18 +40,18 @@ export default function Footer() {
                     to="/contact"
                     className="group inline-flex items-center gap-2.5 bg-rust text-white px-7 py-3.5 label-eyebrow hover:bg-rust-dark hover:shadow-[0_6px_24px_rgba(184,83,31,0.4)] transition-all duration-300"
                   >
-                    Start a Conversation
+                    {footerContent.ctaPrimaryLabel}
                     <ArrowIcon className="transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </MagneticButton>
                 <MagneticButton>
                   <a
-                    href={whatsappLink(defaultWhatsappMessage)}
+                    href={whatsappLink(contactContent.whatsappDefaultMessage, company.whatsappNumber)}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-block border border-ivory/30 text-white px-7 py-3.5 label-eyebrow hover:border-ivory hover:bg-white/5 transition-all duration-300"
                   >
-                    WhatsApp Us
+                    {footerContent.ctaSecondaryLabel}
                   </a>
                 </MagneticButton>
               </div>
@@ -52,7 +64,7 @@ export default function Footer() {
       <div className="container-edge py-14 md:py-16 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
         <div className="md:col-span-5">
           <img
-            src="/images/logo.png"
+            src={siteSettings.logo}
             alt="Anand Techno-Fab LLP"
             className="h-10 w-auto mb-4"
             loading="lazy"
@@ -60,15 +72,11 @@ export default function Footer() {
           />
           <p className="text-ivory text-lg font-medium">{company.legalName}</p>
           <p className="mt-1 text-sm text-ivory/60">{company.tagline}</p>
-          <p className="mt-6 text-sm leading-relaxed max-w-sm text-ivory/60">
-            Infrastructure execution across oil, gas &amp; water pipeline
-            projects, structural fabrication &amp; erection, earthwork, mining
-            and quarry plant operations.
-          </p>
+          <p className="mt-6 text-sm leading-relaxed max-w-sm text-ivory/60">{footerContent.description}</p>
         </div>
 
         <div className="md:col-span-3">
-          <p className="label-eyebrow text-ivory/40 mb-4">Navigate</p>
+          <p className="label-eyebrow text-ivory/40 mb-4">{footerContent.navigateHeading}</p>
           <ul className="space-y-2.5 text-sm">
             {nav.filter((n) => n.label !== "Home").map((item) => (
               <li key={item.to}>
@@ -84,7 +92,7 @@ export default function Footer() {
         </div>
 
         <div className="md:col-span-4">
-          <p className="label-eyebrow text-ivory/40 mb-4">Contact</p>
+          <p className="label-eyebrow text-ivory/40 mb-4">{footerContent.contactHeading}</p>
           <ul className="space-y-2.5 text-sm">
             <li>{company.cityState}</li>
             <li className="text-ivory/60">{company.registeredAddress}</li>

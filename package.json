@@ -7,9 +7,13 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
+    "typecheck:functions": "tsc -p functions/tsconfig.json --noEmit",
     "preview": "vite preview",
     "cf:preview": "npm run build && wrangler pages dev dist",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name=anand-techno-fab"
+    "deploy": "npm run build && wrangler pages deploy dist --project-name=anand-techno-fab",
+    "db:migrate:local": "wrangler d1 migrations apply anand-techno-fab-content --local",
+    "db:migrate:remote": "wrangler d1 migrations apply anand-techno-fab-content --remote",
+    "seed:generate": "node scripts/generate-seed.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",
@@ -17,6 +21,7 @@
     "react-router-dom": "^7.18.3"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260904.1",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",

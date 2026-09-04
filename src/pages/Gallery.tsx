@@ -2,26 +2,23 @@ import { useMemo, useState } from "react";
 import PageHero from "../components/PageHero";
 import Lightbox from "../components/Lightbox";
 import Reveal from "../components/Reveal";
-import { galleryItems, type GalleryItem } from "../data/company";
+import { useContent } from "../lib/content";
 
-const categories: ("All" | GalleryItem["category"])[] = [
-  "All",
-  "Water Pipeline",
-  "Earthwork",
-  "Mining",
-  "Safety & People",
-];
+type GalleryItem = ReturnType<typeof useContent>["galleryItems"][number];
+
+const categories = ["All", "Water Pipeline", "Earthwork", "Mining", "Safety & People"] as const;
 
 const OPENER_ID = "kalisindh-aerial";
 
 export default function Gallery() {
+  const { galleryItems, pageHeroes } = useContent();
   const [filter, setFilter] = useState<(typeof categories)[number]>("All");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const filtered = useMemo(() => {
     if (filter === "All") return galleryItems;
     return galleryItems.filter((g) => g.category === filter);
-  }, [filter]);
+  }, [filter, galleryItems]);
 
   const showOpener = filter === "All";
   const opener = showOpener ? filtered.find((g) => g.id === OPENER_ID) : undefined;
@@ -36,11 +33,7 @@ export default function Gallery() {
 
   return (
     <>
-      <PageHero
-        eyebrow="Gallery"
-        title="Field Photography"
-        intro="Real project photography from active and completed sites — pipelines, earthwork, mining and the people executing the work."
-      />
+      <PageHero index="07" eyebrow={pageHeroes.gallery.eyebrow} title={pageHeroes.gallery.title} intro={pageHeroes.gallery.intro} />
 
       <section className="container-edge py-16 md:py-24">
         <div className="flex flex-wrap gap-2 mb-10">
