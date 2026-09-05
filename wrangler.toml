@@ -17,7 +17,10 @@ database_name = "anand-techno-fab-content"
 database_id = "8fe0b5ce-44b9-43cd-a55b-caf676c05ee2"
 
 # --- Admin panel media (images/videos/logo uploads) ---
-# Replace bucket_name below with the name you gave `wrangler r2 bucket create`.
-#[[r2_buckets]]
-#binding = "MEDIA"
-#bucket_name = "anand-techno-fab-media"
+# Stored on Cloudinary's free tier instead of R2 — no bucket to provision.
+# Set these as secrets (never commit real values here):
+#   wrangler pages secret put CLOUDINARY_CLOUD_NAME
+#   wrangler pages secret put CLOUDINARY_API_KEY
+#   wrangler pages secret put CLOUDINARY_API_SECRET
+# For local dev, put the same three in a .dev.vars file (gitignored).
+# See README.md "Admin Panel Setup" for the full one-time setup.

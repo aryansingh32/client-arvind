@@ -4,12 +4,12 @@ import Footer from "./Footer";
 import ContactDock from "./ContactDock";
 import LogoIntro from "./LogoIntro";
 import ScrollProgress from "./ScrollProgress";
-import CustomCursor from "./CustomCursor";
+import FluidCursor from "./FluidCursor";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-paper text-charcoal pb-16 md:pb-0">
-      <CustomCursor />
+      <FluidCursor />
       <LogoIntro />
       <ScrollProgress />
       <Navbar />

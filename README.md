@@ -6,8 +6,9 @@ images, videos, the logo, contact details, and the arrival animation — can be
 edited without touching code or redeploying.
 
 Built with React + TypeScript + Vite + Tailwind CSS v4 on the frontend, and
-Cloudflare Pages Functions + D1 (database) + R2 (media storage) on the
-backend — all on Cloudflare's free tier. All launch content (projects,
+Cloudflare Pages Functions + D1 (database) on the backend, with Cloudinary's
+free tier for media storage (uploaded images/videos/logo) — all on free
+tiers. All launch content (projects,
 certifications, equipment, team, financials, awards, and every page's copy)
 is sourced from the company's official Company Profile document; the
 original static file, `src/data/company.ts`, is kept as the real-content
@@ -67,30 +68,35 @@ secrets, set under **Settings → Secrets and variables → Actions**:
 Until those secrets are added, the workflow's build step still runs (and
 passes); only the deploy step is skipped.
 
-## Admin Panel Setup (one-time, in your Cloudflare account)
+## Admin Panel Setup (one-time)
 
-The admin panel needs two Cloudflare resources — a D1 database (content) and
-an R2 bucket (uploaded images/videos/logo) — plus two secrets. None of this
-can be provisioned from this repo alone; run these once, in order, from your
-own machine with `npx wrangler login` already done:
+The admin panel needs a Cloudflare D1 database (content), a free Cloudinary
+account (media uploads), and four secrets. None of this can be provisioned
+from this repo alone; run these once, in order, from your own machine with
+`npx wrangler login` already done:
 
 ```bash
 # 1. Create the D1 database, then copy the printed database_id into
 #    wrangler.toml (replace REPLACE_WITH_YOUR_D1_DATABASE_ID).
 npx wrangler d1 create anand-techno-fab-content
 
-# 2. Create the R2 bucket for media uploads (name must match wrangler.toml,
-#    or edit wrangler.toml's bucket_name to match what you choose here).
-npx wrangler r2 bucket create anand-techno-fab-media
-
-# 3. Apply the schema + seed the real launch content (from company.ts +
+# 2. Apply the schema + seed the real launch content (from company.ts +
 #    page copy) into the remote database.
 npm run db:migrate:remote
 
-# 4. Set the admin login password and the session-signing secret.
-#    Pick your own values — these are never committed to the repo.
-npx wrangler secret put ADMIN_PASSWORD
-npx wrangler secret put SESSION_SECRET
+# 3. Sign up for a free Cloudinary account at https://cloudinary.com and
+#    copy your Cloud Name, API Key, and API Secret from the dashboard
+#    (Console → Settings → API Keys). The free tier's storage/bandwidth
+#    is more than enough for this site's media.
+
+# 4. Set the admin login password, the session-signing secret, and the
+#    Cloudinary credentials. Pick your own values — these are never
+#    committed to the repo.
+npx wrangler pages secret put ADMIN_PASSWORD --project-name=anand-techno-fab
+npx wrangler pages secret put SESSION_SECRET --project-name=anand-techno-fab
+npx wrangler pages secret put CLOUDINARY_CLOUD_NAME --project-name=anand-techno-fab
+npx wrangler pages secret put CLOUDINARY_API_KEY --project-name=anand-techno-fab
+npx wrangler pages secret put CLOUDINARY_API_SECRET --project-name=anand-techno-fab
 ```
 
 Then deploy as usual (`npm run deploy`, or push to the Git-connected branch —
@@ -109,6 +115,9 @@ npm run db:migrate:local
 cat > .dev.vars <<'EOF'
 ADMIN_PASSWORD=whatever-you-want-locally
 SESSION_SECRET=any-long-random-string
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
 EOF
 
 npm run cf:preview   # builds, then serves the site + admin API on :8788
@@ -127,9 +136,9 @@ longer copy, image/video picker, or a repeatable list), so a field added to
 the content model shows up in the admin UI automatically — no admin-UI code
 changes needed for new fields within an existing section.
 
-**If the admin panel isn't configured yet** (no D1/R2 bound, or the two
-secrets aren't set), the public site is unaffected — it falls back to the
-bundled default content (`src/data/defaultContent.json`, generated from
+**If the admin panel isn't configured yet** (no D1 bound, or the secrets
+aren't set), the public site is unaffected — it falls back to the bundled
+default content (`src/data/defaultContent.json`, generated from
 `company.ts` + the page copy) and simply doesn't serve `/admin` correctly
 until the steps above are done.
 
