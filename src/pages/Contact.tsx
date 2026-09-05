@@ -14,7 +14,6 @@ interface FormState {
   location: string;
   service: string;
   requirement: string;
-  fileName: string;
 }
 
 const initialState: FormState = {
@@ -25,7 +24,6 @@ const initialState: FormState = {
   location: "",
   service: "",
   requirement: "",
-  fileName: "",
 };
 
 export default function Contact() {
@@ -132,20 +130,6 @@ export default function Contact() {
                     className="input resize-none"
                     placeholder="Briefly describe your project requirement"
                   />
-                </Field>
-
-                <Field label="Upload BOQ / Requirement (optional)">
-                  <label className="flex items-center justify-between border border-concrete bg-paper px-4 py-3 cursor-pointer hover:border-charcoal transition-colors">
-                    <span className="text-sm text-steel truncate">
-                      {form.fileName || "Choose a file (PDF, DOC, XLS)"}
-                    </span>
-                    <span className="label-eyebrow text-rust shrink-0 ml-3">Browse</span>
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={(e) => setForm((f) => ({ ...f, fileName: e.target.files?.[0]?.name ?? "" }))}
-                    />
-                  </label>
                 </Field>
 
                 <MagneticButton className="w-full md:w-auto">
