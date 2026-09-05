@@ -50,8 +50,9 @@ npx wrangler login          # one-time browser auth
 npm run deploy               # builds, then runs: wrangler pages deploy dist
 ```
 
-`wrangler.toml` pins the project name (`anand-techno-fab`) and build output
-directory so `wrangler pages deploy` needs no extra flags.
+`npm run deploy` passes `--project-name=client-arvind` (the actual live
+Cloudflare Pages project — Cloudflare names Git-connected projects after the
+repo, not after `wrangler.toml`'s `name` field) so it needs no extra flags.
 
 ### Option C — Automatic deploys via GitHub Actions
 
@@ -92,11 +93,11 @@ npm run db:migrate:remote
 # 4. Set the admin login password, the session-signing secret, and the
 #    Cloudinary credentials. Pick your own values — these are never
 #    committed to the repo.
-npx wrangler pages secret put ADMIN_PASSWORD --project-name=anand-techno-fab
-npx wrangler pages secret put SESSION_SECRET --project-name=anand-techno-fab
-npx wrangler pages secret put CLOUDINARY_CLOUD_NAME --project-name=anand-techno-fab
-npx wrangler pages secret put CLOUDINARY_API_KEY --project-name=anand-techno-fab
-npx wrangler pages secret put CLOUDINARY_API_SECRET --project-name=anand-techno-fab
+npx wrangler pages secret put ADMIN_PASSWORD --project-name=client-arvind
+npx wrangler pages secret put SESSION_SECRET --project-name=client-arvind
+npx wrangler pages secret put CLOUDINARY_CLOUD_NAME --project-name=client-arvind
+npx wrangler pages secret put CLOUDINARY_API_KEY --project-name=client-arvind
+npx wrangler pages secret put CLOUDINARY_API_SECRET --project-name=client-arvind
 ```
 
 Then deploy as usual (`npm run deploy`, or push to the Git-connected branch —
