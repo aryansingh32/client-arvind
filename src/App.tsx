@@ -11,6 +11,7 @@ import QualitySafety from "./pages/QualitySafety";
 import Certifications from "./pages/Certifications";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminRoute from "./components/admin/AdminRoute";
@@ -28,6 +29,7 @@ function PublicSite() {
         <Route path="/certifications" element={<Certifications />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
       </RouteTransition>
     </Layout>
   );
