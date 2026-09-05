@@ -173,7 +173,7 @@ export default function Home() {
             <div className="lg:col-span-7 space-y-0 border-t border-concrete">
               {timeline.map((t, i) => (
                 <Reveal key={t.year} delay={200 + i * 100} className="flex gap-6 py-5 border-b border-concrete">
-                  <span className="tech-tag text-rust shrink-0 w-14">{t.year}</span>
+                  <span className="tech-tag text-rust shrink-0 w-20 whitespace-nowrap">{t.year}</span>
                   <div>
                     <p className="font-semibold text-charcoal">{t.title}</p>
                     <p className="mt-1 text-sm text-steel leading-relaxed">{t.body}</p>
